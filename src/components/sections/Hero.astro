@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import Icon from '@/components/Icon.astro';
-import CvMenu from '@/components/CvMenu.astro';
+import CvButton from '@/components/CvButton.astro';
 import { profile } from '@/data/profile';
 import { heroPhoto, heroPhotoSizes, heroPhotoWidths } from '@/lib/hero-photo';
 import { localePath, useTranslations, type Locale } from '@/i18n';
@@ -54,7 +54,7 @@ const t = useTranslations(locale);
 
       <div class="mt-8 flex flex-wrap items-center gap-3">
         <a href={`${localePath(locale)}#projects`} class="btn btn-primary">{t('hero.viewProjects')}</a>
-        <CvMenu locale={locale} variant="secondary" align="start" />
+        <CvButton locale={locale} variant="secondary" />
       </div>
 
       <ul class="mt-6 flex items-center gap-1" aria-label={t('hero.elsewhere')}>

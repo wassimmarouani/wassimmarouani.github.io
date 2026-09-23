@@ -33,7 +33,7 @@ npm run preview   # serve the built site
 src/
   content/projects/*.json   one file per project (all three languages)
   content.config.ts         Zod schema for projects and case studies
-  data/                     profile, experience, education, skills, CV files
+  data/                     profile, experience, education, skills, CV path
   i18n/                     en.json · fr.json · ar.json (UI strings) + helpers
   components/               layout pieces, sections, ArchDiagram, ProjectCover
   lib/                      diagram layout, structured data, OG image rendering
@@ -49,7 +49,7 @@ All text lives in typed data files; components never hard-code content.
 - **Add a screenshot:** put it at `_source/projects/<slug>/cover.png`, then run `npm run prepare:assets`. Projects without one get a generated cover.
 - **Profile, experience, education, skills:** edit the files in `src/data/`.
 - **Interface text:** edit `src/i18n/*.json`. TypeScript fails the build if the French or Arabic file is missing a key that English has.
-- **CVs:** place the PDFs in `public/cv/` with the file names listed in `src/data/cv.ts`. The download buttons appear only for files that exist.
+- **CV:** replace `public/cv/Wassim_Marouani_CV.pdf` (the file name is set in `src/data/cv.ts`). The download button only appears when the file exists.
 - **Translation review:** French and Arabic content carries a `_reviewed: "no"` marker until it has been proofread.
 
 ## Deploying

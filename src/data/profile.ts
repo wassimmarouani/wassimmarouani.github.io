@@ -25,8 +25,7 @@ export const profile: Profile = {
   name: {
     en: 'Wassim Marouani',
     fr: 'Wassim Marouani',
-    // Spelling to be confirmed before launch (see TODO.md).
-    ar: 'وسيم المرواني',
+    ar: 'وسيم مرواني',
   },
   initials: 'WM',
   headline: {

@@ -1,0 +1,24 @@
+---
+import Icon from './Icon.astro';
+import { cvHref } from '@/data/cv';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  variant?: 'primary' | 'secondary';
+  class?: string;
+}
+
+const { locale, variant = 'secondary', class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+---
+
+{
+  cvHref && (
+    <a href={cvHref} download type="application/pdf" hreflang="en" class:list={['btn', `btn-${variant}`, className]}>
+      <Icon name="download" size={18} />
+      {t('cv.download')}
+      <span class="sr-only">({t('cv.note')})</span>
+    </a>
+  )
+}

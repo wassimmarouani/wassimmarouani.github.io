@@ -2,16 +2,13 @@
 
 Everything the site still needs from you, most important first.
 
-## 1. Blocking
+## 1. Content
 
-- [ ] **Confirm the Arabic spelling of your name.** The site currently uses **وسيم المرواني** (in `src/data/profile.ts`, and in `src/i18n/ar.json` for `meta.home.title`, `meta.caseStudy.suffix`, `meta.notFound.title` and `hero.photoAlt`).
-- [ ] **Provide publishable CVs.** Both current PDFs contain your **phone number** and **ArtisRaw revenue figures** (and `CV2026_english.pdf` also a profit figure), in the Amazon FBA bullet. They are kept in `_source/` (not committed) and are **not** published. Export cleaned versions to:
-  - `public/cv/Wassim_Marouani_CV.pdf` (Developer CV)
-  - `public/cv/CV2026_english.pdf` (BI & e-commerce CV)
-
-  The "Download CV" buttons appear automatically once the files exist. While you're at it, align the CVs with the repositories: the auction app uses TypeORM + SQL Server and has no real-time bidding; MyBookstore is Symfony 7 and Eshop is Java Servlets/JSP (not React/NestJS/PostgreSQL); EduSmart is Laravel 12 + React 19.
+- [x] Arabic spelling of your name confirmed: **وسيم مرواني**.
+- [x] CV published: `public/cv/Wassim_Marouani_CV.pdf` (approved by you as-is). It is the only CV offered, as a direct download in all three languages.
+- [ ] **Future fix: align the CV's project stacks with the site.** The CV still describes the auction platform as "Real-Time" with Prisma + PostgreSQL (the repository uses TypeORM + SQL Server and has no real-time bidding), the e-learning platform as PHP + MySQL (it is Laravel 12 + React 19 + TypeScript + MySQL + Redis), and the e-commerce apps (MyBookstore, Eshop) as React + NestJS + PostgreSQL (they are Symfony 7 + Twig + Doctrine + MySQL, and Java Servlets/JSP + SQL Server). Update the PDF, then replace `public/cv/Wassim_Marouani_CV.pdf`.
 - [ ] **Review the French text.** Every file marked `_reviewed: "no"`: `src/i18n/fr.json`, `src/data/*.ts`, `src/content/projects/*.json`.
-- [ ] **Review the Arabic text** (same files, `ar` fields). Three Arabic strings contain an explicit `‎` (left-to-right mark) so that `.NET` and `@nestjs/schedule` display correctly. Keep them if you edit those sentences.
+- [ ] **Review the Arabic text** (same files, `ar` fields). Three Arabic strings contain an explicit `\u200e` (left-to-right mark) so that `.NET` and `@nestjs/schedule` display correctly. Keep them if you edit those sentences.
 
 ## 2. Assets
 

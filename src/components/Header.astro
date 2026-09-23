@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import CvMenu from './CvMenu.astro';
+import CvButton from './CvButton.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { profile } from '@/data/profile';
@@ -54,7 +54,7 @@ const sections: { id: string; label: UIKey }[] = [
 
     <LanguageSwitcher locale={locale} route={route} class="hidden border-s border-line ps-2 lg:block" />
     <ThemeToggle locale={locale} />
-    <CvMenu locale={locale} variant="primary" class="hidden lg:block" />
+    <CvButton locale={locale} variant="primary" class="hidden lg:inline-flex" />
 
     <button
       type="button"
@@ -92,7 +92,7 @@ const sections: { id: string; label: UIKey }[] = [
       </nav>
       <div class="flex flex-wrap items-center justify-between gap-3">
         <LanguageSwitcher locale={locale} route={route} />
-        <CvMenu locale={locale} variant="primary" align="end" />
+        <CvButton locale={locale} variant="primary" />
       </div>
     </div>
   </div>
