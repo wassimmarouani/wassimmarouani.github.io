@@ -19,7 +19,7 @@ Everything the site still needs from you, most important first.
   - `auction-platform`: an auction detail page
   - `medical-app`, `edusmart-learning`, `mybookstore`, `eshop`
   - `jalysscom-platform`, `mim-spare-parts-store`, `artisraw-b2c-store`
-- [ ] **Contact form key.** Create a free key at [web3forms.com](https://web3forms.com) for wassimmarweni.sfax@gmail.com and add it as the repository variable `PUBLIC_WEB3FORMS_KEY`. Until then the form opens the visitor's email app (mailto fallback).
+- [x] **Contact form key** added as the repository variable `PUBLIC_WEB3FORMS_KEY`; the live form sends through Web3Forms (tested on 2026-09-23).
 
 ## 3. Facts to confirm
 
@@ -40,4 +40,4 @@ I kept to your brief and the repositories. These points are my interpretation, s
 
 ## 5. Deployment
 
-- [ ] Create the repository `wassimmarouani.github.io`, push, and enable Pages with "GitHub Actions" as the source (steps in the handover notes and in README.md). Until then, the footer's "Source code" link returns 404.
+- [x] Live at https://wassimmarouani.github.io, deployed by GitHub Actions on every push to `main`.
