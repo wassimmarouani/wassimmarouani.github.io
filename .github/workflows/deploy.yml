@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Optional: set these under Settings → Secrets and variables → Actions → Variables.
+      # Without a Web3Forms key the contact form falls back to mailto:.
+      PUBLIC_WEB3FORMS_KEY: ${{ vars.PUBLIC_WEB3FORMS_KEY }}
+      # Set when moving to a custom domain, e.g. https://wassimmarouani.dev
+      SITE_URL: ${{ vars.SITE_URL || 'https://wassimmarouani.github.io' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Type-check, build and upload
+        uses: withastro/action@v6
+        with:
+          node-version: 24
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

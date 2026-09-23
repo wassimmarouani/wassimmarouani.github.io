@@ -1,0 +1,80 @@
+---
+/**
+ * GitHub Pages serves a single /404.html for every locale, so this page holds
+ * all three languages and shows the one that matches the requested URL
+ * (English without JavaScript).
+ */
+import '@/styles/global.css';
+import { localeMeta, localePath, locales, useTranslations } from '@/i18n';
+import { profile } from '@/data/profile';
+
+const titles = Object.fromEntries(locales.map((l) => [l, useTranslations(l)('meta.notFound.title')]));
+---
+
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>{titles.en}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline define:vars={{ titles }}>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        try {
+          var saved = localStorage.getItem('theme');
+          var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+          root.classList.add(dark ? 'dark' : 'light');
+        } catch (e) {}
+        var match = location.pathname.match(/^\/(fr|ar)(\/|$)/);
+        var lang = match ? match[1] : 'en';
+        root.lang = lang;
+        root.dir = lang === 'ar' ? 'rtl' : 'ltr';
+        root.dataset.lang = lang;
+        document.title = titles[lang];
+      })();
+    </script>
+    <style>
+      html:not([data-lang]) [data-for]:not([data-for='en']),
+      html[data-lang] [data-for] {
+        display: none;
+      }
+      html[data-lang='en'] [data-for='en'],
+      html[data-lang='fr'] [data-for='fr'],
+      html[data-lang='ar'] [data-for='ar'] {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="main" class="page grid min-h-screen content-center py-16">
+      {
+        locales.map((locale) => {
+          const t = useTranslations(locale);
+          return (
+            <section data-for={locale} lang={localeMeta[locale].tag} dir={localeMeta[locale].dir} class="max-w-xl">
+              <p class="font-semibold text-accent">404</p>
+              <h1 class="mt-2 text-3xl tracking-tight">{t('notFound.title')}</h1>
+              <p class="mt-4 text-lg text-muted">{t('notFound.body')}</p>
+              <ul class="mt-8 flex flex-wrap gap-3">
+                <li>
+                  <a href={localePath(locale)} class="btn btn-primary">
+                    {t('notFound.home')}
+                  </a>
+                </li>
+                <li>
+                  <a href={`${localePath(locale)}#projects`} class="btn btn-secondary">
+                    {t('notFound.projects')}
+                  </a>
+                </li>
+              </ul>
+              <p class="mt-10 text-sm text-muted">{profile.name[locale]}</p>
+            </section>
+          );
+        })
+      }
+    </main>
+  </body>
+</html>

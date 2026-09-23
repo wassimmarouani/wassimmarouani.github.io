@@ -1,0 +1,17 @@
+{
+  "_reviewed": "no",
+  "order": 9,
+  "context": "professional",
+  "tracks": ["fullstack", "ecommerce"],
+  "title": {
+    "en": "Book-sales & workspace reservation platform",
+    "fr": "Plateforme de vente de livres et de réservation d’espaces",
+    "ar": "منصة لبيع الكتب وحجز مساحات العمل"
+  },
+  "summary": {
+    "en": "End-of-studies project at Jalysscom: a React store, an admin back-office and a real-time analytics dashboard. It became the company’s first online sales channel.",
+    "fr": "Projet de fin d’études chez Jalysscom : une boutique React, un back-office d’administration et un tableau de bord analytique en temps réel. Il est devenu le premier canal de vente en ligne de l’entreprise.",
+    "ar": "مشروع ختم الدروس في Jalysscom: متجر React ولوحة إدارة ولوحة تحليلات فورية. وأصبح أول قناة بيع إلكترونية للشركة."
+  },
+  "stack": ["React.js", "JavaScript", "REST APIs", "SQL", "HTML/CSS"]
+}

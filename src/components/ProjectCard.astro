@@ -1,0 +1,94 @@
+---
+import Icon from './Icon.astro';
+import ProjectCover from './ProjectCover.astro';
+import type { Project } from '@/lib/projects';
+import { localePath, useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+  featured?: boolean;
+}
+
+const { project, locale, featured = false } = Astro.props;
+const t = useTranslations(locale);
+const { data } = project;
+const caseUrl = featured && data.caseStudy ? localePath(locale, `projects/${project.id}`) : undefined;
+const titleId = `project-${project.id}`;
+---
+
+<article
+  class="project-card group flex flex-col rounded-card border border-line bg-surface"
+  data-tracks={data.tracks.join(' ')}
+  aria-labelledby={titleId}
+>
+  <div class="p-2 pb-0">
+    <ProjectCover
+      project={project}
+      locale={locale}
+      sizes={featured ? '(min-width: 768px) 540px, 100vw' : '(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw'}
+    />
+  </div>
+
+  <div class="flex flex-1 flex-col p-5 sm:p-6">
+    <p class="text-sm text-muted">
+      {t(`context.${data.context}`)}
+      <span aria-hidden="true"> · </span>
+      {data.tracks.map((track) => t(`track.${track}`)).join(', ')}
+    </p>
+
+    <h4 id={titleId} class:list={['mt-2', featured ? 'text-xl' : 'text-lg']}>
+      {
+        caseUrl ? (
+          <a href={caseUrl} class="no-underline hover:text-accent hover:underline">
+            {data.title[locale]}
+          </a>
+        ) : (
+          data.title[locale]
+        )
+      }
+    </h4>
+
+    <p class="mt-2 text-muted">{data.summary[locale]}</p>
+
+    <ul class="mt-4 flex flex-wrap gap-1.5" aria-label={t('case.stack')}>
+      {data.stack.map((item) => <li class="tag" dir="auto">{item}</li>)}
+    </ul>
+
+    <div class="mt-auto flex flex-wrap items-center gap-x-5 gap-y-1 pt-5">
+      {
+        caseUrl && (
+          <a href={caseUrl} class="inline-flex min-h-11 items-center gap-1.5 font-medium text-accent hover:underline">
+            {t('projects.readCase')}
+            <Icon name="arrowRight" size={16} />
+          </a>
+        )
+      }
+      {
+        data.links.live && (
+          <a href={data.links.live} class="inline-flex min-h-11 items-center gap-1.5 text-text hover:text-accent" rel="noopener">
+            {t('projects.live')}
+            <Icon name="external" size={16} />
+          </a>
+        )
+      }
+      {
+        data.links.github && (
+          <a href={data.links.github} class="inline-flex min-h-11 items-center gap-1.5 text-text hover:text-accent" rel="noopener">
+            <Icon name="github" size={16} />
+            {t('projects.code')}
+            <span class="sr-only">: {data.title[locale]}</span>
+          </a>
+        )
+      }
+      {
+        data.privateCode && (
+          <p class="inline-flex min-h-11 items-center gap-1.5 text-sm text-muted">
+            <Icon name="lock" size={16} />
+            {t('projects.private')}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</article>

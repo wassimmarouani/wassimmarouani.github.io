@@ -1,0 +1,17 @@
+{
+  "_reviewed": "no",
+  "order": 10,
+  "context": "professional",
+  "tracks": ["ecommerce"],
+  "title": {
+    "en": "Automotive spare-parts store",
+    "fr": "Boutique de pièces détachées automobiles",
+    "ar": "متجر قطع غيار السيارات"
+  },
+  "summary": {
+    "en": "A WordPress e-commerce platform for MIM Groupe, with a custom theme and plugins built around the client’s catalogue and ordering workflow.",
+    "fr": "Une plateforme e-commerce WordPress pour MIM Groupe, avec un thème et des plugins sur mesure pensés pour le catalogue et le processus de commande du client.",
+    "ar": "منصة تجارة إلكترونية على WordPress لصالح MIM Groupe، بقالب وإضافات مخصّصة مبنية حول كتالوج العميل ومسار طلباته."
+  },
+  "stack": ["WordPress", "PHP", "MySQL", "SEO"]
+}

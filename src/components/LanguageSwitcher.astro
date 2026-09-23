@@ -1,0 +1,60 @@
+---
+import { alternatePaths, localeMeta, locales, useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  route: string;
+  class?: string;
+}
+
+const { locale, route, class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+const paths = alternatePaths(route);
+---
+
+<nav aria-label={t('lang.label')} class={className}>
+  <ul class="flex items-center gap-0.5">
+    {
+      locales.map((l) => (
+        <li>
+          <a
+            href={paths[l]}
+            hreflang={localeMeta[l].tag}
+            lang={localeMeta[l].tag}
+            aria-current={l === locale ? 'page' : undefined}
+            aria-label={localeMeta[l].name}
+            data-lang-link
+            class:list={[
+              'inline-flex min-h-11 min-w-11 items-center justify-center rounded px-2 text-sm font-medium no-underline',
+              l === locale ? 'text-accent underline decoration-2 underline-offset-8' : 'text-muted hover:text-text',
+              // The Arabic label uses the system font on Latin pages so the Arabic web font is not downloaded there.
+              l === 'ar' && locale !== 'ar' ? 'font-[system-ui]' : '',
+            ]}
+          >
+            {localeMeta[l].short}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+
+<script>
+  // Keep the reader on the same section when switching language.
+  function currentSectionId(): string | null {
+    const sections = document.querySelectorAll<HTMLElement>('main section[id]');
+    let current: string | null = null;
+    const threshold = window.innerHeight * 0.3;
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= threshold) current = section.id;
+    }
+    return current;
+  }
+
+  document.addEventListener('click', (event) => {
+    const link = (event.target as Element | null)?.closest<HTMLAnchorElement>('a[data-lang-link]');
+    if (!link || link.getAttribute('aria-current') === 'page') return;
+    const id = currentSectionId();
+    if (id) link.hash = id;
+  });
+</script>

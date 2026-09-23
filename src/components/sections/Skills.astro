@@ -1,0 +1,55 @@
+---
+import Icon from '@/components/Icon.astro';
+import { skills } from '@/data/skills';
+import { pick, useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="skills" class="section" aria-labelledby="skills-title">
+  <div class="page">
+    <h2 id="skills-title" class="section-title">{t('skills.title')}</h2>
+    <p class="prose-width mt-3 text-muted">{t('skills.intro')}</p>
+
+    <div class="mt-10 grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        skills.map((group) => (
+          <div>
+            <h3 class="flex items-center gap-2.5 text-base">
+              <span class="grid size-8 place-items-center rounded bg-accent-soft text-accent">
+                <Icon name={group.icon} size={18} />
+              </span>
+              {group.title[locale]}
+            </h3>
+            <div class="mt-4 overflow-hidden">
+              <ul class="skill-list -ms-4 flex flex-wrap gap-y-1.5 text-muted">
+                {group.items.map((item) => (
+                  <li>
+                    <bdi>{pick(item, locale)}</bdi>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Each item carries a leading separator; the one that starts a line falls in
+     the clipped negative margin, so no line begins or ends with a dot. */
+  .skill-list li::before {
+    content: '·';
+    display: inline-block;
+    width: 1rem;
+    text-align: center;
+    color: var(--c-border-strong);
+  }
+</style>

@@ -1,0 +1,184 @@
+---
+import { profile } from '@/data/profile';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY?.trim() || undefined;
+const endpoint = 'https://api.web3forms.com/submit';
+const fields = [
+  { id: 'name', label: t('contact.name'), error: t('contact.err.name') },
+  { id: 'email', label: t('contact.email'), error: t('contact.err.email') },
+  { id: 'message', label: t('contact.message'), error: t('contact.err.message') },
+] as const;
+---
+
+<div class="rounded-card border border-line bg-surface p-5 sm:p-7">
+  <form
+    action={accessKey ? endpoint : `mailto:${profile.email}`}
+    method="post"
+    enctype={accessKey ? undefined : 'text/plain'}
+    data-contact-form
+    data-mode={accessKey ? 'web3forms' : 'mailto'}
+    data-email={profile.email}
+    data-subject={`Portfolio: ${t('contact.formTitle')}`}
+    aria-labelledby="contact-form-title"
+  >
+    <h3 id="contact-form-title" class="text-lg">{t('contact.formTitle')}</h3>
+
+    {
+      accessKey && (
+        <>
+          <input type="hidden" name="access_key" value={accessKey} />
+          <input type="hidden" name="subject" value="New message from wassimmarouani.github.io" />
+          <input type="hidden" name="from_name" value="Portfolio contact form" />
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        </>
+      )
+    }
+
+    <div class="mt-5 space-y-5">
+      {
+        fields.map((field) => (
+          <div>
+            <label for={`cf-${field.id}`} class="block font-medium">
+              {field.label}
+            </label>
+            {field.id === 'message' ? (
+              <textarea
+                id="cf-message"
+                name="message"
+                rows="5"
+                required
+                minlength="10"
+                maxlength="5000"
+                aria-describedby="cf-message-error"
+                class="field mt-1.5 resize-y"
+              />
+            ) : (
+              <input
+                id={`cf-${field.id}`}
+                name={field.id}
+                type={field.id === 'email' ? 'email' : 'text'}
+                autocomplete={field.id}
+                required
+                maxlength="200"
+                aria-describedby={`cf-${field.id}-error`}
+                class="field mt-1.5"
+                dir={field.id === 'email' ? 'ltr' : 'auto'}
+              />
+            )}
+            <p id={`cf-${field.id}-error`} class="mt-1.5 text-sm text-danger" data-error={field.error} hidden />
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <button type="submit" class="btn btn-primary" data-label-idle={t('contact.send')} data-label-busy={t('contact.sending')}>
+        {t('contact.send')}
+      </button>
+      {!accessKey && <p class="text-sm text-muted">{t('contact.mailtoNote')}</p>}
+    </div>
+
+    <p class="mt-4 text-sm text-danger" role="alert" data-form-error hidden>
+      {t('contact.error', { email: profile.email })}
+    </p>
+  </form>
+
+  <div role="status" tabindex="-1" data-form-success hidden class="focus:outline-none">
+    <h3 class="text-lg text-accent">{t('contact.successTitle')}</h3>
+    <p class="mt-2 text-muted">{t('contact.successBody')}</p>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('form[data-contact-form]');
+
+  function showError(field: HTMLInputElement | HTMLTextAreaElement, show: boolean) {
+    const error = document.getElementById(`${field.id}-error`);
+    if (!error) return;
+    error.textContent = show ? (error.dataset.error ?? '') : '';
+    error.hidden = !show;
+    field.setAttribute('aria-invalid', String(show));
+  }
+
+  function validate(field: HTMLInputElement | HTMLTextAreaElement): boolean {
+    const value = field.value.trim();
+    let valid = field.checkValidity() && value.length > 0;
+    if (field.name === 'message') valid = value.length >= 10;
+    showError(field, !valid);
+    return valid;
+  }
+
+  if (form) {
+    // JavaScript takes over validation so messages are translated and consistent.
+    form.noValidate = true;
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('.field'));
+    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const errorBox = form.querySelector<HTMLElement>('[data-form-error]');
+    const success = form.parentElement?.querySelector<HTMLElement>('[data-form-success]');
+
+    for (const field of fields) {
+      field.addEventListener('blur', () => {
+        if (field.value) validate(field);
+      });
+      field.addEventListener('input', () => {
+        if (field.getAttribute('aria-invalid') === 'true') validate(field);
+      });
+    }
+
+    const setBusy = (busy: boolean) => {
+      if (!submit) return;
+      submit.disabled = busy;
+      submit.textContent = (busy ? submit.dataset.labelBusy : submit.dataset.labelIdle) ?? '';
+    };
+
+    const showSuccess = () => {
+      form.hidden = true;
+      if (success) {
+        success.hidden = false;
+        success.focus();
+      }
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (errorBox) errorBox.hidden = true;
+      const invalid = fields.filter((field) => !validate(field));
+      if (invalid.length > 0) {
+        invalid[0]?.focus();
+        return;
+      }
+
+      const data = new FormData(form);
+      if (form.dataset.mode === 'mailto') {
+        const body = `${data.get('message')}\n\n${data.get('name')} <${data.get('email')}>`;
+        const subject = form.dataset.subject ?? '';
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        return;
+      }
+
+      setBusy(true);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        const result = (await response.json()) as { success?: boolean };
+        if (!response.ok || !result.success) throw new Error('Submission failed');
+        form.reset();
+        showSuccess();
+      } catch {
+        if (errorBox) errorBox.hidden = false;
+      } finally {
+        setBusy(false);
+      }
+    });
+  }
+</script>

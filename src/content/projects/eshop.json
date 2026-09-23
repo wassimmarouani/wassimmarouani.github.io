@@ -1,0 +1,18 @@
+{
+  "_reviewed": "no",
+  "order": 8,
+  "context": "academic",
+  "tracks": ["fullstack", "ecommerce"],
+  "title": {
+    "en": "Eshop",
+    "fr": "Eshop",
+    "ar": "Eshop"
+  },
+  "summary": {
+    "en": "A Java web shop in a layered MVC design (servlets, services, DAOs) with a cart, promotions, authentication and an admin area.",
+    "fr": "Une boutique web Java en architecture MVC en couches (servlets, services, DAO) avec panier, promotions, authentification et espace d’administration.",
+    "ar": "متجر ويب بلغة Java بتصميم MVC متعدد الطبقات (Servlets وخدمات وDAO) مع سلة وعروض ترويجية ومصادقة ومساحة إدارة."
+  },
+  "stack": ["Java", "Servlets/JSP", "SQL Server", "Maven", "jBCrypt"],
+  "links": { "github": "https://github.com/wassimmarouani/Eshop" }
+}

@@ -1,0 +1,200 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '@/layouts/Base.astro';
+import ArchDiagram from '@/components/ArchDiagram.astro';
+import Icon from '@/components/Icon.astro';
+import ProjectCover from '@/components/ProjectCover.astro';
+import { getCaseStudies } from '@/lib/projects';
+import { breadcrumbSchema, projectSchema } from '@/lib/structured-data';
+import { locales, localePath, useTranslations, type Locale } from '@/i18n';
+
+export const getStaticPaths = (async () => {
+  const studies = await getCaseStudies();
+  return locales.flatMap((lang) =>
+    studies.map((project, index) => ({
+      params: { lang, slug: project.id },
+      props: { project, next: studies[(index + 1) % studies.length]! },
+    })),
+  );
+}) satisfies GetStaticPaths;
+
+const { project, next } = Astro.props;
+const locale = Astro.params.lang as Locale;
+const t = useTranslations(locale);
+const { data } = project;
+const study = data.caseStudy;
+const site = Astro.site ?? new URL(Astro.url.origin);
+const route = `projects/${project.id}`;
+const pageUrl = new URL(localePath(locale, route), site).href;
+const homeUrl = localePath(locale);
+const title = data.title[locale];
+
+const crumbs = [
+  { name: t('nav.home'), url: new URL(homeUrl, site).href },
+  { name: t('nav.projects'), url: new URL(`${homeUrl}#projects`, site).href },
+  { name: title, url: pageUrl },
+];
+
+const sections = [
+  { id: 'built', title: t('case.built'), items: study.built[locale] },
+  { id: 'highlights', title: t('case.highlights'), items: study.highlights?.[locale] },
+  { id: 'limitations', title: t('case.limitations'), items: study.limitations?.[locale] },
+].filter((s): s is { id: string; title: string; items: string[] } => Boolean(s.items?.length));
+---
+
+<Base
+  locale={locale}
+  title={`${title} · ${t('meta.caseStudy.suffix')}`}
+  description={data.summary[locale]}
+  route={route}
+  ogType="article"
+  jsonLd={[projectSchema(project, locale, site, pageUrl), breadcrumbSchema(crumbs)]}
+>
+  <article class="page pt-8 pb-20 md:pt-12">
+    <nav aria-label={t('case.breadcrumb')}>
+      <ol class="flex flex-wrap items-center gap-1 text-sm text-muted">
+        <li class="flex items-center gap-1">
+          <a href={homeUrl} class="inline-flex min-h-11 items-center hover:text-accent">{t('nav.home')}</a>
+          <Icon name="chevronRight" size={14} />
+        </li>
+        <li class="flex items-center gap-1">
+          <a href={`${homeUrl}#projects`} class="inline-flex min-h-11 items-center hover:text-accent">{t('nav.projects')}</a>
+          <Icon name="chevronRight" size={14} />
+        </li>
+        <li><span aria-current="page" class="text-text">{title}</span></li>
+      </ol>
+    </nav>
+
+    <header class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-16">
+      <div>
+        <h1 class="text-3xl tracking-tight md:text-4xl">{title}</h1>
+        <p class="prose-width mt-4 text-lg text-muted">{data.summary[locale]}</p>
+      </div>
+      <dl class="grid grid-cols-2 gap-x-6 gap-y-4 self-end text-sm lg:grid-cols-1">
+        <div>
+          <dt class="font-semibold">{t('case.context')}</dt>
+          <dd class="mt-0.5 text-muted">{t(`context.${data.context}`)}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">{t('case.role')}</dt>
+          <dd class="mt-0.5 text-muted">{study.role[locale]}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">{t('case.tracks')}</dt>
+          <dd class="mt-0.5 text-muted">{data.tracks.map((track) => t(`track.${track}`)).join(', ')}</dd>
+        </div>
+        <div>
+          <dt class="font-semibold">{t('case.links')}</dt>
+          <dd class="mt-0.5">
+            <ul>
+              {
+                data.links.live && (
+                  <li>
+                    <a href={data.links.live} class="text-link inline-flex min-h-11 items-center gap-1.5" rel="noopener">
+                      {t('projects.live')}
+                      <Icon name="external" size={14} />
+                    </a>
+                  </li>
+                )
+              }
+              {
+                data.links.github && (
+                  <li>
+                    <a href={data.links.github} class="text-link inline-flex min-h-11 items-center gap-1.5" rel="noopener">
+                      <Icon name="github" size={14} />
+                      {t('projects.code')}
+                    </a>
+                  </li>
+                )
+              }
+              {
+                data.privateCode && (
+                  <li class="inline-flex items-center gap-1.5 text-muted">
+                    <Icon name="lock" size={14} />
+                    {t('projects.private')}
+                  </li>
+                )
+              }
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="mt-10">
+      <ProjectCover project={project} locale={locale} sizes="(min-width: 1120px) 1072px, 100vw" eager />
+    </div>
+
+    <section class="mt-16" aria-labelledby="problem-title">
+      <h2 id="problem-title" class="section-title">{t('case.problem')}</h2>
+      <p class="prose-width mt-4 text-lg">{study.problem[locale]}</p>
+    </section>
+
+    <section class="mt-16" aria-labelledby="architecture-title">
+      <h2 id="architecture-title" class="section-title">{t('case.architecture')}</h2>
+      <figure class="mt-6 rounded-card border border-line bg-bg px-4 py-8 sm:px-8 md:py-10">
+        <ArchDiagram locale={locale} id={project.id} diagram={study.diagram} describedBy="diagram-caption" />
+        <figcaption id="diagram-caption" class="prose-width mx-auto mt-8 text-center text-sm text-muted">
+          {study.diagram.caption[locale]}
+        </figcaption>
+      </figure>
+      <details class="prose-width mt-4 text-sm">
+        <summary class="inline-flex min-h-11 cursor-pointer items-center font-medium text-accent">{t('case.flow')}</summary>
+        <ol class="mt-2 list-decimal space-y-1 ps-6 text-muted">
+          {
+            study.diagram.columns.map((column) => (
+              <li>
+                {column
+                  .map((node) => {
+                    const label = typeof node.label === 'string' ? node.label : node.label[locale];
+                    const detail = node.detail === undefined ? '' : typeof node.detail === 'string' ? node.detail : node.detail[locale];
+                    return detail ? `${label} (${detail})` : label;
+                  })
+                  .join(' · ')}
+              </li>
+            ))
+          }
+        </ol>
+      </details>
+    </section>
+
+    {
+      sections.map((section) => (
+        <section class="mt-16" aria-labelledby={`${section.id}-title`}>
+          <h2 id={`${section.id}-title`} class="section-title">
+            {section.title}
+          </h2>
+          <ul class="prose-width mt-5 list-disc space-y-3 ps-5 marker:text-accent">
+            {section.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </section>
+      ))
+    }
+
+    <section class="mt-16" aria-labelledby="stack-title">
+      <h2 id="stack-title" class="section-title">{t('case.stack')}</h2>
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {data.stack.map((item) => <li class="tag" dir="auto">{item}</li>)}
+      </ul>
+    </section>
+
+    <nav class="mt-20 flex flex-col gap-4 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between" aria-label={t('case.next')}>
+      <a href={`${homeUrl}#projects`} class="inline-flex min-h-11 items-center gap-2 text-muted hover:text-accent">
+        <Icon name="arrowLeft" size={18} />
+        {t('case.back')}
+      </a>
+      <a
+        href={localePath(locale, `projects/${next.id}`)}
+        class="group inline-flex min-h-11 flex-col items-start sm:items-end"
+      >
+        <span class="text-sm text-muted">{t('case.next')}</span>
+        <span class="inline-flex items-center gap-2 text-lg font-medium group-hover:text-accent">
+          {next.data.title[locale]}
+          <Icon name="arrowRight" size={18} />
+        </span>
+      </a>
+    </nav>
+  </article>
+</Base>

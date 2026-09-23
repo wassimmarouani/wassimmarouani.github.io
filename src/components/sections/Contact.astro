@@ -1,0 +1,88 @@
+---
+import Icon from '@/components/Icon.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import { profile } from '@/data/profile';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="page grid gap-12 lg:grid-cols-2 lg:gap-16">
+    <div>
+      <h2 id="contact-title" class="section-title">{t('contact.title')}</h2>
+      <p class="prose-width mt-4 text-lg">{t('contact.intro')}</p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-2">
+        <a
+          href={`mailto:${profile.email}`}
+          class="inline-flex min-h-11 items-center gap-2.5 text-lg font-medium text-accent underline decoration-1 underline-offset-4 hover:decoration-2"
+        >
+          <Icon name="mail" />
+          <bdi dir="ltr" class="break-all">{profile.email}</bdi>
+        </a>
+        <button
+          type="button"
+          class="btn btn-secondary js-only min-h-11 px-3 py-1.5 text-sm"
+          data-copy={profile.email}
+          data-copied={t('contact.copied')}
+          data-failed={t('contact.copyFailed')}
+          aria-label={t('contact.copyLabel')}
+        >
+          <Icon name="copy" size={16} class="copy-icon" />
+          <Icon name="check" size={16} class="copied-icon hidden" />
+          {t('contact.copy')}
+        </button>
+        <p class="w-full text-sm text-muted" aria-live="polite" data-copy-status></p>
+      </div>
+
+      <ul class="mt-4 space-y-1">
+        <li>
+          <a href={profile.links.linkedin} class="inline-flex min-h-11 items-center gap-2.5 hover:text-accent" rel="me noopener">
+            <Icon name="linkedin" />
+            <span>LinkedIn</span>
+            <span class="text-muted" dir="ltr">/in/wassimmarouani</span>
+          </a>
+        </li>
+        <li>
+          <a href={profile.links.github} class="inline-flex min-h-11 items-center gap-2.5 hover:text-accent" rel="me noopener">
+            <Icon name="github" />
+            <span>GitHub</span>
+            <span class="text-muted" dir="ltr">@wassimmarouani</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <ContactForm locale={locale} />
+  </div>
+</section>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('button[data-copy]');
+  const status = document.querySelector<HTMLElement>('[data-copy-status]');
+  let timer: number | undefined;
+
+  button?.addEventListener('click', async () => {
+    const value = button.dataset.copy ?? '';
+    try {
+      await navigator.clipboard.writeText(value);
+      if (status) status.textContent = button.dataset.copied ?? '';
+      button.querySelector('.copy-icon')?.classList.add('hidden');
+      button.querySelector('.copied-icon')?.classList.remove('hidden');
+    } catch {
+      if (status) status.textContent = button.dataset.failed ?? '';
+    }
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      if (status) status.textContent = '';
+      button.querySelector('.copy-icon')?.classList.remove('hidden');
+      button.querySelector('.copied-icon')?.classList.add('hidden');
+    }, 3000);
+  });
+</script>

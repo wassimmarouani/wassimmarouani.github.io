@@ -1,0 +1,89 @@
+{
+  "_reviewed": "no",
+  "order": 1,
+  "featured": true,
+  "context": "professional",
+  "tracks": ["fullstack", "ecommerce"],
+  "title": {
+    "en": "B2B platform for ArtisRaw",
+    "fr": "Plateforme B2B pour ArtisRaw",
+    "ar": "منصة B2B لشركة ArtisRaw"
+  },
+  "summary": {
+    "en": "A wholesale site for an olive-wood manufacturer, built to rank on Google and turn visitors into qualified quote requests.",
+    "fr": "Un site B2B pour un fabricant d’articles en bois d’olivier, conçu pour se positionner sur Google et transformer les visiteurs en demandes de devis qualifiées.",
+    "ar": "موقع للبيع بالجملة لمصنّع منتجات خشب الزيتون، صُمّم ليبرز في نتائج Google ويحوّل الزوار إلى طلبات عروض أسعار مؤهَّلة."
+  },
+  "stack": ["React", "SSR", "Schema.org", "GA4", "Search Console", "CDN"],
+  "links": { "live": "https://b2b.artisraw.com" },
+  "caseStudy": {
+    "role": {
+      "en": "Design and development, from scratch",
+      "fr": "Conception et développement, de zéro",
+      "ar": "التصميم والتطوير من الصفر"
+    },
+    "problem": {
+      "en": "ArtisRaw manufactures olive-wood products and sells them internationally. The company needed a professional B2B site that ranks on Google for wholesale buyers and turns visitors into qualified quote requests.",
+      "fr": "ArtisRaw fabrique des articles en bois d’olivier et les vend à l’international. L’entreprise avait besoin d’un site B2B professionnel, bien positionné sur Google auprès des acheteurs grossistes, qui transforme les visiteurs en demandes de devis qualifiées.",
+      "ar": "تصنع ArtisRaw منتجات من خشب الزيتون وتبيعها على المستوى الدولي. احتاجت الشركة إلى موقع B2B احترافي يظهر في نتائج Google لمشتري الجملة، ويحوّل الزوار إلى طلبات عروض أسعار مؤهَّلة."
+    },
+    "built": {
+      "en": [
+        "A React platform with server-side rendering: product catalog and category landing pages.",
+        "A qualifying quote-request form that captures volume, market and sales channel, with automated lead routing and WhatsApp Business integration.",
+        "Schema.org structured data so search engines understand the catalog.",
+        "Fully responsive layouts from 360 to 1920 px, built to WCAG AA.",
+        "Performance work (WebP images, lazy-loading, CDN, caching) targeting an LCP under 2.5 s.",
+        "GA4 and Search Console conversion tracking, plus GDPR cookie consent and legal pages."
+      ],
+      "fr": [
+        "Une plateforme React avec rendu côté serveur : catalogue produits et pages d’atterrissage par catégorie.",
+        "Un formulaire de demande de devis qualifiant (volume, marché, canal de vente), avec routage automatique des leads et intégration WhatsApp Business.",
+        "Des données structurées Schema.org pour que les moteurs de recherche comprennent le catalogue.",
+        "Des mises en page entièrement responsives de 360 à 1920 px, conformes WCAG AA.",
+        "Un travail de performance (images WebP, lazy-loading, CDN, cache) visant un LCP inférieur à 2,5 s.",
+        "Le suivi des conversions GA4 et Search Console, ainsi que le consentement cookies et les pages légales conformes au RGPD."
+      ],
+      "ar": [
+        "منصة React مع العرض من جهة الخادم: كتالوج المنتجات وصفحات هبوط لكل فئة.",
+        "نموذج لطلب عروض الأسعار يؤهّل العملاء عبر الحجم والسوق وقناة البيع، مع توجيه آلي للعملاء المحتملين وتكامل مع WhatsApp Business.",
+        "بيانات Schema.org منظّمة تساعد محركات البحث على فهم الكتالوج.",
+        "تصاميم متجاوبة بالكامل من 360 إلى 1920 px، مطابقة لمعيار WCAG AA.",
+        "تحسينات للأداء (صور WebP، التحميل الكسول، CDN، التخزين المؤقت) تستهدف LCP أقل من 2.5 ث.",
+        "تتبّع التحويلات عبر GA4 وSearch Console، مع موافقة ملفات تعريف الارتباط والصفحات القانونية وفق GDPR."
+      ]
+    },
+    "highlights": {
+      "en": [
+        "Search visibility is part of the rendering, not an afterthought: pages arrive as HTML with structured data already in place.",
+        "The quote form qualifies leads as they come in, so each request reaches the right follow-up with the information needed to answer it."
+      ],
+      "fr": [
+        "La visibilité dans les moteurs de recherche fait partie du rendu, pas d’une étape ajoutée après coup : les pages arrivent en HTML avec leurs données structurées.",
+        "Le formulaire de devis qualifie les leads dès leur arrivée : chaque demande atteint le bon suivi avec les informations nécessaires pour y répondre."
+      ],
+      "ar": [
+        "الظهور في محركات البحث جزء من طريقة العرض نفسها لا خطوة لاحقة: تصل الصفحات بصيغة HTML ومعها البيانات المنظّمة.",
+        "يؤهّل نموذج طلب الأسعار العملاء المحتملين فور وصولهم، فيصل كل طلب إلى المتابعة المناسبة ومعه المعلومات اللازمة للرد."
+      ]
+    },
+    "diagram": {
+      "columns": [
+        [{ "id": "buyer", "label": { "en": "Wholesale buyer", "fr": "Acheteur grossiste", "ar": "مشتري الجملة" }, "detail": { "en": "Arrives from Google", "fr": "Arrive depuis Google", "ar": "قادم من Google" } }],
+        [{ "id": "cdn", "label": "CDN", "detail": { "en": "WebP, caching", "fr": "WebP, cache", "ar": "WebP، تخزين مؤقت" } }],
+        [{ "id": "app", "label": "React + SSR", "detail": { "en": "Catalog, landing pages, Schema.org", "fr": "Catalogue, landing pages, Schema.org", "ar": "الكتالوج، صفحات الهبوط، Schema.org" } }],
+        [{ "id": "form", "label": { "en": "Quote request", "fr": "Demande de devis", "ar": "طلب عرض سعر" }, "detail": { "en": "Volume, market, channel", "fr": "Volume, marché, canal", "ar": "الحجم، السوق، القناة" } }],
+        [
+          { "id": "routing", "label": { "en": "Lead routing", "fr": "Routage des leads", "ar": "توجيه العملاء" }, "detail": { "en": "Automated", "fr": "Automatique", "ar": "آلي" } },
+          { "id": "whatsapp", "label": "WhatsApp Business", "detail": { "en": "Direct follow-up", "fr": "Suivi direct", "ar": "متابعة مباشرة" } },
+          { "id": "ga4", "label": "GA4", "detail": { "en": "Conversion tracking", "fr": "Suivi des conversions", "ar": "تتبّع التحويلات" } }
+        ]
+      ],
+      "caption": {
+        "en": "A buyer finds a server-rendered page through search, served from a CDN, and submits a qualifying quote request that is routed, followed up on WhatsApp and measured in GA4.",
+        "fr": "Un acheteur trouve une page rendue côté serveur via la recherche, servie par un CDN, puis envoie une demande de devis qualifiante, routée, suivie sur WhatsApp et mesurée dans GA4.",
+        "ar": "يجد المشتري صفحة معروضة من جهة الخادم عبر البحث، تُقدَّم من CDN، ثم يرسل طلب عرض سعر مؤهِّلاً يُوجَّه آلياً ويُتابَع عبر WhatsApp ويُقاس في GA4."
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "_reviewed": "no",
+  "order": 11,
+  "context": "professional",
+  "tracks": ["ecommerce"],
+  "title": {
+    "en": "ArtisRaw B2C store",
+    "fr": "Boutique B2C ArtisRaw",
+    "ar": "متجر ArtisRaw للأفراد (B2C)"
+  },
+  "summary": {
+    "en": "The olive-wood brand’s direct-to-consumer store, with Stripe international payments, GA4 conversion tracking and GDPR-compliant cookie flows.",
+    "fr": "La boutique en direct de la marque de bois d’olivier, avec paiements internationaux Stripe, suivi des conversions GA4 et parcours cookies conformes au RGPD.",
+    "ar": "متجر العلامة للبيع المباشر للمستهلكين، مع مدفوعات دولية عبر Stripe وتتبّع التحويلات عبر GA4 ومسارات ملفات تعريف الارتباط وفق GDPR."
+  },
+  "stack": ["WordPress", "PHP", "Stripe", "GA4"]
+}

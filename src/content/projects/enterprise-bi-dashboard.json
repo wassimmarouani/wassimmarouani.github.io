@@ -1,0 +1,101 @@
+{
+  "_reviewed": "no",
+  "order": 3,
+  "featured": true,
+  "context": "academic",
+  "tracks": ["bi-data"],
+  "title": {
+    "en": "Enterprise BI dashboard",
+    "fr": "Tableau de bord BI d’entreprise",
+    "ar": "لوحة ذكاء الأعمال للمؤسسة"
+  },
+  "summary": {
+    "en": "An end-to-end OLAP solution for sales and inventory analysis, from SSIS ETL to dashboards that query the SSAS cube live.",
+    "fr": "Une solution OLAP de bout en bout pour l’analyse des ventes et des stocks, de l’ETL SSIS aux tableaux de bord qui interrogent le cube SSAS en direct.",
+    "ar": "حلّ OLAP متكامل لتحليل المبيعات والمخزون، من مسار ETL عبر SSIS إلى لوحات مؤشرات تستعلم مكعّب SSAS مباشرة."
+  },
+  "stack": ["SQL Server", "SSIS", "SSAS", "MDX", "ADOMD.NET", ".NET 10", "Angular", "ECharts", "React", "Recharts", "TypeScript"],
+  "links": { "github": "https://github.com/wassimmarouani/enterprise-bi-dashboard" },
+  "caseStudy": {
+    "role": {
+      "en": "The whole chain: ETL, data warehouse, cube, API and both front ends",
+      "fr": "Toute la chaîne : ETL, entrepôt de données, cube, API et les deux interfaces",
+      "ar": "السلسلة كاملة: ETL، مستودع البيانات، المكعّب، الواجهة البرمجية والواجهتان الأماميتان"
+    },
+    "problem": {
+      "en": "Sales and inventory data lived in an operational database built for transactions, not analysis. This academic project builds the full BI chain on top of it: extraction, a data warehouse, an OLAP cube and dashboards for sales and inventory.",
+      "fr": "Les données de ventes et de stocks se trouvaient dans une base opérationnelle conçue pour les transactions, pas pour l’analyse. Ce projet universitaire construit toute la chaîne BI par-dessus : extraction, entrepôt de données, cube OLAP et tableaux de bord ventes et stocks.",
+      "ar": "كانت بيانات المبيعات والمخزون في قاعدة بيانات تشغيلية مصمّمة للمعاملات لا للتحليل. يبني هذا المشروع الجامعي سلسلة ذكاء الأعمال كاملة فوقها: الاستخراج، ومستودع البيانات، ومكعّب OLAP، ولوحات مؤشرات للمبيعات والمخزون."
+    },
+    "built": {
+      "en": [
+        "SSIS ETL packages that load the operational database (EnterpriseDB) into a data warehouse (EnterpriseDW).",
+        "An SSAS multidimensional cube with sales and inventory measure groups.",
+        "A .NET 10 Web API that queries the cube live in MDX through ADOMD.NET and serves KPIs, monthly trends and top-10 rankings as REST endpoints.",
+        "Two front ends on the same API: Angular with ECharts, and React with Recharts, each with sales and inventory dashboards."
+      ],
+      "fr": [
+        "Des packages ETL SSIS qui chargent la base opérationnelle (EnterpriseDB) dans un entrepôt de données (EnterpriseDW).",
+        "Un cube SSAS multidimensionnel avec des groupes de mesures ventes et stocks.",
+        "Une Web API .NET 10 qui interroge le cube en direct en MDX via ADOMD.NET et expose KPI, tendances mensuelles et classements top 10 en endpoints REST.",
+        "Deux interfaces sur la même API : Angular avec ECharts, et React avec Recharts, chacune avec des tableaux de bord ventes et stocks."
+      ],
+      "ar": [
+        "حزم ETL عبر SSIS تنقل قاعدة البيانات التشغيلية (EnterpriseDB) إلى مستودع بيانات (EnterpriseDW).",
+        "مكعّب SSAS متعدد الأبعاد يضم مجموعتَي قياسات للمبيعات والمخزون.",
+        "واجهة Web API بـ \u200e.NET 10 تستعلم المكعّب مباشرة بلغة MDX عبر ADOMD.NET، وتقدّم المؤشرات والاتجاهات الشهرية وترتيب أفضل 10 عبر نقاط REST.",
+        "واجهتان أماميتان على الواجهة البرمجية نفسها: Angular مع ECharts، وReact مع Recharts، ولكل منهما لوحتا المبيعات والمخزون."
+      ]
+    },
+    "highlights": {
+      "en": [
+        "The MDX is written against what the cube really exposes, verified through DMV introspection rather than assumed from the specification.",
+        "The calendar dimension only exposes days, so the API rolls daily members up to months using the yyyymmdd member key.",
+        "Inventory quantity is signed (inbound positive, outbound negative); inbound and outbound KPIs are derived by summing each movement type by sign.",
+        "Diagnostic endpoints (connectivity ping, measure and hierarchy introspection) make cube issues quick to find."
+      ],
+      "fr": [
+        "Le MDX est écrit d’après ce que le cube expose réellement, vérifié par introspection DMV plutôt que déduit de la spécification.",
+        "La dimension calendrier n’expose que des jours : l’API agrège les membres journaliers en mois à partir de la clé yyyymmdd.",
+        "La quantité en stock est signée (entrées positives, sorties négatives) ; les KPI d’entrées et de sorties sont obtenus en sommant chaque type de mouvement selon son signe.",
+        "Des endpoints de diagnostic (ping de connexion, introspection des mesures et des hiérarchies) permettent de localiser vite un problème de cube."
+      ],
+      "ar": [
+        "كُتبت استعلامات MDX وفق ما يعرضه المكعّب فعلاً، بعد التحقق عبر استعلامات DMV بدلاً من الافتراض انطلاقاً من المواصفات.",
+        "لا يعرض بُعد التقويم سوى الأيام، لذا تجمّع الواجهة البرمجية الأيام في أشهر اعتماداً على مفتاح العضو yyyymmdd.",
+        "كمية المخزون ذات إشارة (الوارد موجب والصادر سالب)، وتُستخرج مؤشرات الوارد والصادر بجمع كل نوع حركة حسب إشارته.",
+        "نقاط تشخيص (اختبار الاتصال، واستكشاف القياسات والتسلسلات الهرمية) تسهّل تحديد مشاكل المكعّب بسرعة."
+      ]
+    },
+    "limitations": {
+      "en": [
+        "Sales by order status and order count are not available yet: those fields exist in the fact table but were not modelled as cube dimensions. The fix is a degenerate dimension plus a distinct-count measure."
+      ],
+      "fr": [
+        "Les ventes par statut de commande et le nombre de commandes ne sont pas encore disponibles : ces champs existent dans la table de faits mais n’ont pas été modélisés comme dimensions du cube. La solution : une dimension dégénérée et une mesure de comptage distinct."
+      ],
+      "ar": [
+        "المبيعات حسب حالة الطلب وعدد الطلبات غير متاحة بعد: هذه الحقول موجودة في جدول الحقائق لكنها لم تُنمذَج كأبعاد في المكعّب. والحل بُعد منحلّ (degenerate dimension) مع قياس للعدّ المميّز."
+      ]
+    },
+    "diagram": {
+      "columns": [
+        [{ "id": "oltp", "label": "EnterpriseDB", "detail": { "en": "SQL Server, operational", "fr": "SQL Server, opérationnelle", "ar": "SQL Server، تشغيلية" } }],
+        [{ "id": "etl", "label": "SSIS", "detail": "ETL" }],
+        [{ "id": "dw", "label": "EnterpriseDW", "detail": { "en": "Data warehouse", "fr": "Entrepôt de données", "ar": "مستودع البيانات" } }],
+        [{ "id": "cube", "label": { "en": "SSAS cube", "fr": "Cube SSAS", "ar": "مكعّب SSAS" }, "detail": "OLAP" }],
+        [{ "id": "api", "label": ".NET 10 API", "detail": "ADOMD.NET" }],
+        [
+          { "id": "ng", "label": "Angular", "detail": "ECharts" },
+          { "id": "react", "label": "React", "detail": "Recharts" }
+        ]
+      ],
+      "gapLabels": [null, null, null, "MDX", "REST"],
+      "caption": {
+        "en": "SSIS moves operational data into the warehouse, SSAS builds the cube on it, the .NET API queries the cube in MDX, and two front ends read the same REST endpoints.",
+        "fr": "SSIS charge les données opérationnelles dans l’entrepôt, SSAS construit le cube par-dessus, l’API .NET interroge le cube en MDX, et deux interfaces lisent les mêmes endpoints REST.",
+        "ar": "ينقل SSIS البيانات التشغيلية إلى المستودع، ويبني SSAS المكعّب فوقه، وتستعلم واجهة \u200e.NET المكعّب بلغة MDX، وتقرأ واجهتان أماميتان نقاط REST نفسها."
+      }
+    }
+  }
+}

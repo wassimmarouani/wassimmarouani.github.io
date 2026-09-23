@@ -1,0 +1,18 @@
+{
+  "_reviewed": "no",
+  "order": 7,
+  "context": "academic",
+  "tracks": ["fullstack", "ecommerce"],
+  "title": {
+    "en": "MyBookstore",
+    "fr": "MyBookstore",
+    "ar": "MyBookstore"
+  },
+  "summary": {
+    "en": "An online bookstore with a public storefront, cart, checkout and orders, and a back-office shared by four roles, from visitor to administrator.",
+    "fr": "Une librairie en ligne avec vitrine publique, panier, commande et suivi des commandes, et un back-office partagé entre quatre rôles, du visiteur à l’administrateur.",
+    "ar": "مكتبة إلكترونية بواجهة عامة وسلة وإتمام للطلب ومتابعة للطلبات، ولوحة إدارة تتقاسمها أربعة أدوار، من الزائر إلى المشرف."
+  },
+  "stack": ["Symfony 7", "Twig", "Doctrine", "MySQL", "EasyAdmin"],
+  "links": { "github": "https://github.com/wassimmarouani/MyBookstore" }
+}

@@ -1,0 +1,51 @@
+---
+import Icon from './Icon.astro';
+import { profile } from '@/data/profile';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line">
+  <div class="page flex flex-col gap-6 py-10 text-sm text-muted md:flex-row md:items-center md:justify-between">
+    <p>
+      <span class="font-medium text-text">{profile.name[locale]}</span>
+      <span aria-hidden="true"> · </span>
+      <span>© {year}</span>
+    </p>
+
+    <ul class="flex items-center gap-1">
+      <li>
+        <a href={profile.links.linkedin} class="icon-btn" aria-label={t('social.linkedin')} rel="me noopener">
+          <Icon name="linkedin" />
+        </a>
+      </li>
+      <li>
+        <a href={profile.links.github} class="icon-btn" aria-label={t('social.github')} rel="me noopener">
+          <Icon name="github" />
+        </a>
+      </li>
+      <li>
+        <a href={`mailto:${profile.email}`} class="icon-btn" aria-label={t('social.email')}>
+          <Icon name="mail" />
+        </a>
+      </li>
+    </ul>
+
+    <p class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      <a href="https://astro.build" class="inline-flex min-h-11 items-center hover:text-text" rel="noopener">
+        {t('footer.builtWith')}
+      </a>
+      <a href={profile.sourceRepo} class="inline-flex min-h-11 items-center gap-1.5 hover:text-text" rel="noopener">
+        <Icon name="github" size={16} />
+        {t('footer.source')}
+      </a>
+    </p>
+  </div>
+</footer>

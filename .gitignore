@@ -1,0 +1,23 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Private source material (CVs, original photo, raw screenshots).
+# Public CVs live in public/cv/ once they are cleared for publishing.
+_source/
+# Never commit a CV from the project root; published CVs go in public/cv/ only.
+/*.pdf
+
+# Local tooling
+.lighthouse/
+.DS_Store
+Thumbs.db
+*.log

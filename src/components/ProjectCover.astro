@@ -1,0 +1,103 @@
+---
+import { Picture } from 'astro:assets';
+import { getCover, type Project } from '@/lib/projects';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+  sizes: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { project, locale, sizes, eager = false, class: className = '' } = Astro.props;
+const t = useTranslations(locale);
+const cover = getCover(project.id);
+const title = project.data.title[locale];
+
+// Generated cover: a small network drawing, echoing the LinkedIn banner, seeded
+// by the slug so each project gets its own stable layout.
+function seeded(seed: string) {
+  let h = 2166136261;
+  for (const ch of seed) h = Math.imul(h ^ ch.charCodeAt(0), 16777619);
+  return () => {
+    h = Math.imul(h ^ (h >>> 15), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  };
+}
+
+const W = 800;
+const H = 450;
+const random = seeded(project.id);
+const nodes = Array.from({ length: 10 }, () => ({
+  x: Math.round(W * (0.38 + random() * 0.58)),
+  y: Math.round(H * (0.08 + random() * 0.6)),
+}));
+const edges: [number, number][] = [];
+nodes.forEach((a, i) => {
+  const nearest = nodes
+    .map((b, j) => ({ j, d: (a.x - b.x) ** 2 + (a.y - b.y) ** 2 }))
+    .filter(({ j }) => j !== i)
+    .sort((p, q) => p.d - q.d)
+    .slice(0, 2);
+  for (const { j } of nearest) {
+    if (!edges.some(([p, q]) => (p === i && q === j) || (p === j && q === i))) edges.push([i, j]);
+  }
+});
+const hot = Math.floor(random() * nodes.length);
+const glowId = `glow-${project.id}`;
+---
+
+{
+  cover ? (
+    <Picture
+      src={cover}
+      alt={t('projects.coverAlt', { title })}
+      formats={['avif', 'webp']}
+      widths={[480, 800, 1200]}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : 'auto'}
+      class:list={['aspect-video w-full rounded-card border border-line object-cover', className]}
+    />
+  ) : (
+    <div
+      class:list={['@container relative aspect-video w-full overflow-hidden rounded-card bg-brand', className]}
+      aria-hidden="true"
+      data-generated-cover
+    >
+      <svg viewBox={`0 0 ${W} ${H}`} class="flip-rtl absolute inset-0 size-full" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id={glowId}>
+            <stop offset="0" stop-color="var(--c-brand-accent)" stop-opacity="0.55" />
+            <stop offset="1" stop-color="var(--c-brand-accent)" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <g stroke="var(--c-brand-line)" stroke-width="1.5">
+          {edges.map(([a, b]) => (
+            <line x1={nodes[a]!.x} y1={nodes[a]!.y} x2={nodes[b]!.x} y2={nodes[b]!.y} />
+          ))}
+        </g>
+        {nodes.map((n, i) =>
+          i === hot ? (
+            <g>
+              <circle cx={n.x} cy={n.y} r="46" fill={`url(#${glowId})`} />
+              <circle cx={n.x} cy={n.y} r="7" fill="var(--c-brand-accent)" />
+            </g>
+          ) : (
+            <circle cx={n.x} cy={n.y} r="4" fill="var(--c-brand)" stroke="var(--c-brand-accent)" stroke-opacity="0.7" stroke-width="1.5" />
+          ),
+        )}
+      </svg>
+      <div class="absolute inset-x-0 bottom-0 p-4 @md:p-6">
+        <p class="line-clamp-2 max-w-[90%] text-base leading-snug font-semibold text-brand-text @md:text-xl @2xl:text-3xl">{title}</p>
+        <p class="mt-1 line-clamp-1 text-xs text-brand-muted @md:text-sm">
+          <bdi dir="ltr">{project.data.stack.slice(0, 5).join(' · ')}</bdi>
+        </p>
+      </div>
+    </div>
+  )
+}

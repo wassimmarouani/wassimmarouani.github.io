@@ -1,0 +1,18 @@
+{
+  "_reviewed": "no",
+  "order": 5,
+  "context": "academic",
+  "tracks": ["fullstack"],
+  "title": {
+    "en": "Medical records app",
+    "fr": "Application de dossiers médicaux",
+    "ar": "تطبيق الملفات الطبية"
+  },
+  "summary": {
+    "en": "Medical records with diagnoses, prescriptions and documents, and role-based access for patients, doctors, staff and admins.",
+    "fr": "Des dossiers médicaux avec diagnostics, ordonnances et documents, et un accès par rôle pour patients, médecins, personnel et administrateurs.",
+    "ar": "ملفات طبية تضم التشخيصات والوصفات والوثائق، مع صلاحيات حسب الدور للمرضى والأطباء والطاقم والمشرفين."
+  },
+  "stack": ["TypeScript", "React", "NestJS", "Prisma", "PostgreSQL"],
+  "links": { "github": "https://github.com/wassimmarouani/medical-app" }
+}

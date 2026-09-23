@@ -1,0 +1,18 @@
+{
+  "_reviewed": "no",
+  "order": 6,
+  "context": "academic",
+  "tracks": ["fullstack"],
+  "title": {
+    "en": "EduSmart Learning",
+    "fr": "EduSmart Learning",
+    "ar": "EduSmart Learning"
+  },
+  "summary": {
+    "en": "An e-learning platform with course management, enrolment and student progress tracking.",
+    "fr": "Une plateforme d’e-learning avec gestion des cours, inscriptions et suivi de la progression des étudiants.",
+    "ar": "منصة تعليم إلكتروني لإدارة الدورات والتسجيل فيها ومتابعة تقدّم الطلبة."
+  },
+  "stack": ["Laravel 12", "React 19", "TypeScript", "MySQL", "Redis"],
+  "links": { "github": "https://github.com/wassimmarouani/EduSmart-Learning" }
+}

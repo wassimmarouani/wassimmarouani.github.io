@@ -1,0 +1,110 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import { alternatePaths, localeMeta, locales, useTranslations, type Locale } from '@/i18n';
+import latin400 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url';
+import latin600 from '@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff2?url';
+import arabic400 from '@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-400-normal.woff2?url';
+import arabic600 from '@fontsource/ibm-plex-sans-arabic/files/ibm-plex-sans-arabic-arabic-600-normal.woff2?url';
+
+export interface Preload {
+  srcset: string;
+  sizes: string;
+  type: string;
+}
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  /** Route after the locale prefix ('' for home, 'projects/slug' for a case study). */
+  route: string;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
+  preload?: Preload;
+}
+
+const { locale, title, description, route, ogType = 'website', jsonLd = [], preload } = Astro.props;
+const t = useTranslations(locale);
+const meta = localeMeta[locale];
+const site = Astro.site ?? new URL(Astro.url.origin);
+
+const paths = alternatePaths(route);
+const canonical = new URL(paths[locale], site).href;
+// The home page's x-default is the language picker at the root; other pages default to English.
+const xDefault = new URL(route === '' ? '/' : paths.en, site).href;
+const ogImage = new URL(`/og/${locale}.png`, site).href;
+// The two faces every page renders first (body text and headings).
+const fontPreloads = meta.dir === 'rtl' ? [arabic400, arabic600] : [latin400, latin600];
+---
+
+<!doctype html>
+<html lang={meta.tag} dir={meta.dir}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
+      // Runs before first paint: apply the saved or system theme, flag JS support.
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        try {
+          var saved = localStorage.getItem('theme');
+          var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+          root.classList.add(dark ? 'dark' : 'light');
+        } catch (e) {}
+        addEventListener('load', function () {
+          setTimeout(function () {
+            root.classList.add('loaded');
+          }, 100);
+        });
+      })();
+    </script>
+    {fontPreloads.map((href) => <link rel="preload" as="font" type="font/woff2" href={href} crossorigin />)}
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={localeMeta[l].tag} href={new URL(paths[l], site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={xDefault} />
+
+    <meta name="author" content="Wassim Marouani" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f5f7f7" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0c1a1f" media="(prefers-color-scheme: dark)" />
+
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Wassim Marouani" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:locale" content={meta.ogLocale} />
+    {locales.filter((l) => l !== locale).map((l) => <meta property="og:locale:alternate" content={localeMeta[l].ogLocale} />)}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {preload && <link rel="preload" as="image" imagesrcset={preload.srcset} imagesizes={preload.sizes} type={preload.type} fetchpriority="high" />}
+
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main" class="skip-link">{t('a11y.skip')}</a>
+    <Header locale={locale} route={route} />
+    <main id="main" tabindex="-1" class="flex-1 focus:outline-none">
+      <slot />
+    </main>
+    <Footer locale={locale} />
+  </body>
+</html>

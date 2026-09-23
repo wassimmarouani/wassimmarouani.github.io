@@ -1,0 +1,89 @@
+---
+import ProjectCard from '@/components/ProjectCard.astro';
+import { tracks } from '@/content.config';
+import { getProjects } from '@/lib/projects';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+const projects = await getProjects();
+const featured = projects.filter((p) => p.data.featured && p.data.caseStudy);
+const others = projects.filter((p) => !featured.includes(p));
+const filters = [{ id: 'all', label: t('projects.all') }, ...tracks.map((id) => ({ id, label: t(`track.${id}`) }))];
+---
+
+<section id="projects" class="section" aria-labelledby="projects-title">
+  <div class="page">
+    <h2 id="projects-title" class="section-title">{t('projects.title')}</h2>
+    <p class="prose-width mt-3 text-muted">{t('projects.intro')}</p>
+
+    <div class="js-only mt-8 flex flex-wrap gap-2" role="group" aria-label={t('projects.filter')} data-project-filter>
+      {
+        filters.map((f, i) => (
+          <button
+            type="button"
+            data-filter={f.id}
+            aria-pressed={i === 0 ? 'true' : 'false'}
+            class="filter-btn min-h-11 rounded-full border border-line-strong px-4 text-[0.95rem] font-medium text-text transition-colors hover:border-accent"
+          >
+            {f.label}
+          </button>
+        ))
+      }
+    </div>
+    <p class="sr-only" aria-live="polite" data-filter-status data-template={t('projects.shown')}></p>
+
+    <div class="mt-10" data-project-group>
+      <h3 class="text-lg">{t('projects.featured')}</h3>
+      <div class="mt-5 grid gap-6 md:grid-cols-2">
+        {featured.map((project) => <ProjectCard project={project} locale={locale} featured />)}
+      </div>
+    </div>
+
+    <div class="mt-14" data-project-group>
+      <h3 class="text-lg">{t('projects.others')}</h3>
+      <div class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((project) => <ProjectCard project={project} locale={locale} />)}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .filter-btn[aria-pressed='true'] {
+    background-color: var(--c-accent);
+    border-color: var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+</style>
+
+<script>
+  const toolbar = document.querySelector<HTMLElement>('[data-project-filter]');
+  const status = document.querySelector<HTMLElement>('[data-filter-status]');
+  const cards = document.querySelectorAll<HTMLElement>('.project-card');
+  const groups = document.querySelectorAll<HTMLElement>('[data-project-group]');
+
+  function apply(filter: string) {
+    let shown = 0;
+    for (const card of cards) {
+      const match = filter === 'all' || (card.dataset.tracks ?? '').split(' ').includes(filter);
+      card.hidden = !match;
+      if (match) shown += 1;
+    }
+    for (const group of groups) {
+      group.hidden = !group.querySelector('.project-card:not([hidden])');
+    }
+    if (status) status.textContent = (status.dataset.template ?? '{count}').replace('{count}', String(shown));
+  }
+
+  toolbar?.addEventListener('click', (event) => {
+    const button = (event.target as Element).closest<HTMLButtonElement>('button[data-filter]');
+    if (!button) return;
+    for (const b of toolbar.querySelectorAll('button')) b.setAttribute('aria-pressed', String(b === button));
+    apply(button.dataset.filter ?? 'all');
+  });
+</script>

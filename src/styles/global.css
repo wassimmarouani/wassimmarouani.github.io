@@ -1,0 +1,376 @@
+@import 'tailwindcss';
+
+/* Self-hosted fonts. The Arabic family keeps its unicode-range subsets, so
+   Latin-only pages never download it. */
+@import '@fontsource/ibm-plex-sans/latin-400.css';
+@import '@fontsource/ibm-plex-sans/latin-500.css';
+@import '@fontsource/ibm-plex-sans/latin-600.css';
+@import '@fontsource/ibm-plex-sans-arabic/400.css';
+@import '@fontsource/ibm-plex-sans-arabic/500.css';
+@import '@fontsource/ibm-plex-sans-arabic/600.css';
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Every text/background pair meets WCAG AA in both themes.
+   --------------------------------------------------------------------------- */
+:root {
+  --c-bg: #f5f7f7;
+  --c-surface: #ffffff;
+  --c-text: #0f1e24;
+  --c-muted: #4b5c63;
+  --c-accent: #0f766e;
+  --c-accent-hover: #0b5e58;
+  --c-accent-ink: #ffffff;
+  --c-accent-soft: #e3f1ef;
+  --c-border: #dde4e5;
+  --c-border-strong: #7a8c92;
+  --c-focus: #0f766e;
+  --c-danger: #b42318;
+  /* Brand panel (covers, diagrams' highlight): always the banner's deep teal-navy. */
+  --c-brand: #0c1a1f;
+  --c-brand-line: #1f3a42;
+  --c-brand-accent: #2dd4bf;
+  --c-brand-text: #e7efef;
+  --c-brand-muted: #9db0b4;
+  color-scheme: light;
+}
+
+:root.dark {
+  --c-bg: #0c1a1f;
+  --c-surface: #132830;
+  --c-text: #e7efef;
+  --c-muted: #9db0b4;
+  --c-accent: #2dd4bf;
+  --c-accent-hover: #5eead4;
+  --c-accent-ink: #0c1a1f;
+  --c-accent-soft: #12383a;
+  --c-border: #23393f;
+  --c-border-strong: #62808a;
+  --c-focus: #5eead4;
+  --c-danger: #fda29b;
+  --c-brand: #081317;
+  --c-brand-line: #1f3a42;
+  color-scheme: dark;
+}
+
+/* Without JavaScript, follow the system preference. */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not(.dark) {
+    --c-bg: #0c1a1f;
+    --c-surface: #132830;
+    --c-text: #e7efef;
+    --c-muted: #9db0b4;
+    --c-accent: #2dd4bf;
+    --c-accent-hover: #5eead4;
+    --c-accent-ink: #0c1a1f;
+    --c-accent-soft: #12383a;
+    --c-border: #23393f;
+    --c-border-strong: #62808a;
+    --c-focus: #5eead4;
+    --c-danger: #fda29b;
+    --c-brand: #081317;
+    color-scheme: dark;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-text: var(--c-text);
+  --color-muted: var(--c-muted);
+  --color-accent: var(--c-accent);
+  --color-accent-hover: var(--c-accent-hover);
+  --color-accent-ink: var(--c-accent-ink);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-line: var(--c-border);
+  --color-line-strong: var(--c-border-strong);
+  --color-danger: var(--c-danger);
+  --color-brand: var(--c-brand);
+  --color-brand-line: var(--c-brand-line);
+  --color-brand-accent: var(--c-brand-accent);
+  --color-brand-text: var(--c-brand-text);
+  --color-brand-muted: var(--c-brand-muted);
+
+  --font-sans: 'IBM Plex Sans', 'IBM Plex Sans Arabic', ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: 'IBM Plex Sans Arabic', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale: 17px base, ratio 1.25. */
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.0625rem;
+  --text-base--line-height: 1.65;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.5625rem;
+  --text-xl--line-height: 1.3;
+  --text-2xl: 1.953rem;
+  --text-2xl--line-height: 1.2;
+  --text-3xl: 2.441rem;
+  --text-3xl--line-height: 1.12;
+  --text-4xl: 3.052rem;
+  --text-4xl--line-height: 1.08;
+
+  --radius-card: 0.5rem;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    background-color: var(--c-bg);
+    color: var(--c-text);
+    font-family: var(--font-sans);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+
+  html[lang='ar'] {
+    font-family: var(--font-arabic);
+  }
+
+  body {
+    min-height: 100vh;
+    background-color: var(--c-bg);
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html[lang='ar'] body {
+    line-height: 1.8;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  p,
+  li {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-underline-offset: 0.2em;
+  }
+
+  ::selection {
+    background-color: var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--c-focus);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Smooth in-page navigation only once the page has loaded, so arriving on a
+     #section from another page (e.g. after switching language) jumps straight there. */
+  @media (prefers-reduced-motion: no-preference) {
+    html.loaded {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Interactive controls that need JavaScript are hidden until it runs. */
+html:not(.js) .js-only {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------------------
+   Components
+   --------------------------------------------------------------------------- */
+@layer components {
+  .page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 70rem; /* 1120px */
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .page {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  .prose-width {
+    max-width: 68ch;
+  }
+
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--c-accent);
+    color: var(--c-accent-ink);
+    font-weight: 600;
+    border-radius: 0.375rem;
+  }
+
+  .skip-link:focus {
+    top: 0.75rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem; /* 44px touch target */
+    padding: 0.5rem 1.125rem;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color 150ms ease,
+      border-color 150ms ease,
+      color 150ms ease;
+  }
+
+  .btn-primary {
+    background-color: var(--c-accent);
+    color: var(--c-accent-ink);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--c-accent-hover);
+  }
+
+  .btn-secondary {
+    background-color: var(--c-surface);
+    border-color: var(--c-border-strong);
+    color: var(--c-text);
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--c-accent);
+    color: var(--c-accent);
+  }
+
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.375rem;
+    color: var(--c-muted);
+    transition: color 150ms ease, background-color 150ms ease;
+  }
+
+  .icon-btn:hover {
+    color: var(--c-accent);
+    background-color: var(--c-accent-soft);
+  }
+
+  .text-link {
+    color: var(--c-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+  }
+
+  .text-link:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  .tag {
+    display: inline-block;
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    background-color: var(--c-accent-soft);
+    color: var(--c-text);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .section {
+    padding-block: 4rem;
+    border-top: 1px solid var(--c-border);
+  }
+
+  @media (min-width: 768px) {
+    .section {
+      padding-block: 5.5rem;
+    }
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    line-height: var(--text-2xl--line-height);
+    letter-spacing: -0.01em;
+  }
+
+  html[lang='ar'] .section-title {
+    letter-spacing: 0;
+  }
+
+  .field {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.625rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid var(--c-border-strong);
+    background-color: var(--c-surface);
+    color: var(--c-text);
+    font: inherit;
+  }
+
+  .field[aria-invalid='true'] {
+    border-color: var(--c-danger);
+  }
+
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+}
+
+/* Directional icons point the other way in right-to-left pages. */
+[dir='rtl'] .flip-rtl {
+  transform: scaleX(-1);
+}
+
+/* The one load moment: the network node in the hero lights up. Decorative only,
+   so it never delays the largest contentful paint. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-network {
+    animation: network-in 900ms ease-out both;
+  }
+
+  .hero-glow {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: glow-in 1200ms 300ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+
+  @keyframes network-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes glow-in {
+    from {
+      opacity: 0;
+      transform: scale(0.3);
+    }
+  }
+}

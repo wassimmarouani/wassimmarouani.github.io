@@ -1,0 +1,63 @@
+---
+import { education } from '@/data/education';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="education" class="section" aria-labelledby="education-title">
+  <div class="page">
+    <h2 id="education-title" class="section-title">{t('education.title')}</h2>
+
+    <ol class="mt-10 border-s border-line-strong">
+      {
+        education.map((item) => (
+          <li class="relative ps-6 pb-10 last:pb-0 sm:ps-10">
+            <span
+              aria-hidden="true"
+              class:list={[
+                'absolute -start-[7px] top-1.5 size-[13px] rounded-full border-2 border-accent',
+                item.inProgress ? 'bg-bg' : 'bg-accent',
+              ]}
+            />
+            <div class="grid gap-x-10 gap-y-1 md:grid-cols-[12rem_minmax(0,1fr)]">
+              <p class="text-sm text-muted md:pt-1">
+                {item.start && (
+                  <>
+                    <time datetime={String(item.start)}>{item.start}</time>
+                    <span aria-hidden="true"> – </span>
+                  </>
+                )}
+                <time datetime={String(item.end)}>{item.end}</time>
+                {item.inProgress && (
+                  <>
+                    <br class="hidden md:block" />
+                    <span class="md:hidden" aria-hidden="true"> · </span>
+                    {t('education.inProgress')}
+                  </>
+                )}
+              </p>
+              <div>
+                <h3 class="text-lg leading-snug">{item.degree[locale]}</h3>
+                <p class="mt-1 text-muted">
+                  {item.school[locale]}
+                  {item.note && (
+                    <>
+                      <span aria-hidden="true"> · </span>
+                      {item.note[locale]}
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

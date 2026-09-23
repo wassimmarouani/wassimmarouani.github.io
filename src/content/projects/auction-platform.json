@@ -1,0 +1,94 @@
+{
+  "_reviewed": "no",
+  "order": 4,
+  "featured": true,
+  "context": "academic",
+  "tracks": ["fullstack"],
+  "title": {
+    "en": "Online auction platform",
+    "fr": "Plateforme d’enchères en ligne",
+    "ar": "منصة مزادات إلكترونية"
+  },
+  "summary": {
+    "en": "An auction marketplace where sellers publish listings, an admin validates them, buyers bid, and auctions close on schedule.",
+    "fr": "Une place de marché d’enchères : les vendeurs publient des annonces, un administrateur les valide, les acheteurs enchérissent et les enchères se clôturent automatiquement.",
+    "ar": "سوق مزادات إلكترونية: ينشر البائعون إعلاناتهم، ويصادق عليها المشرف، ويزايد المشترون، وتُغلق المزادات تلقائياً في موعدها."
+  },
+  "stack": ["TypeScript", "React", "Vite", "NestJS", "TypeORM", "SQL Server", "JWT", "Swagger"],
+  "links": { "github": "https://github.com/wassimmarouani/auction-platform" },
+  "caseStudy": {
+    "role": {
+      "en": "Backend API and React front end",
+      "fr": "API backend et interface React",
+      "ar": "الواجهة البرمجية الخلفية وواجهة React"
+    },
+    "problem": {
+      "en": "An academic project built from a formal specification: an online auction marketplace with three roles (buyers, sellers and administrators) and a complete auction lifecycle, from listing to winner.",
+      "fr": "Un projet universitaire réalisé à partir d’un cahier des charges : une place de marché d’enchères en ligne avec trois rôles (acheteurs, vendeurs, administrateurs) et un cycle de vie complet, de l’annonce au gagnant.",
+      "ar": "مشروع جامعي منجز انطلاقاً من كرّاس شروط: سوق مزادات إلكترونية بثلاثة أدوار (مشترون، بائعون، مشرفون) ودورة حياة كاملة للمزاد، من الإعلان حتى الفائز."
+    },
+    "built": {
+      "en": [
+        "A NestJS REST API split into feature modules: auth, categories and sub-categories, products, listings, auctions, favourites, purchase history, notifications and admin.",
+        "The auction lifecycle: a seller publishes a listing, an admin validates or rejects it, buyers place bids, a scheduled job closes expired auctions, and the seller sees the winner.",
+        "Role-based access: buyers can upgrade to seller accounts; admins moderate listings and activate or deactivate accounts.",
+        "A React + Vite front end with TanStack Query, React Hook Form with Zod, and Zustand, styled with Tailwind CSS and shadcn/ui."
+      ],
+      "fr": [
+        "Une API REST NestJS découpée en modules fonctionnels : authentification, catégories et sous-catégories, produits, annonces, enchères, favoris, historique d’achats, notifications et administration.",
+        "Le cycle de vie des enchères : un vendeur publie une annonce, un administrateur la valide ou la rejette, les acheteurs enchérissent, une tâche planifiée clôture les enchères expirées et le vendeur voit le gagnant.",
+        "Un contrôle d’accès par rôle : les acheteurs peuvent passer vendeur ; les administrateurs modèrent les annonces et activent ou désactivent les comptes.",
+        "Une interface React + Vite avec TanStack Query, React Hook Form et Zod, et Zustand, stylée avec Tailwind CSS et shadcn/ui."
+      ],
+      "ar": [
+        "واجهة REST API بـ NestJS مقسّمة إلى وحدات: المصادقة، والفئات والفئات الفرعية، والمنتجات، والإعلانات، والمزادات، والمفضّلة، وسجل المشتريات، والإشعارات، والإدارة.",
+        "دورة حياة المزاد: ينشر البائع إعلاناً، فيصادق عليه المشرف أو يرفضه، ثم يزايد المشترون، وتُغلق مهمة مجدولة المزادات المنتهية، ويطّلع البائع على الفائز.",
+        "صلاحيات حسب الدور: يمكن للمشتري الترقية إلى حساب بائع، ويراقب المشرفون الإعلانات ويفعّلون الحسابات أو يعطّلونها.",
+        "واجهة أمامية بـ React وVite مع TanStack Query وReact Hook Form وZod وZustand، بتنسيق Tailwind CSS وshadcn/ui."
+      ]
+    },
+    "highlights": {
+      "en": [
+        "JWT access and refresh tokens with Passport, role guards, and bcrypt password hashing.",
+        "Hardening with helmet, rate limiting and request validation (class-validator).",
+        "Auction closing runs as a scheduled task (@nestjs/schedule), so no one has to close auctions by hand.",
+        "Interactive API documentation with Swagger."
+      ],
+      "fr": [
+        "Jetons d’accès et de rafraîchissement JWT avec Passport, guards par rôle et hachage des mots de passe avec bcrypt.",
+        "Durcissement avec helmet, limitation de débit et validation des requêtes (class-validator).",
+        "La clôture des enchères tourne en tâche planifiée (@nestjs/schedule) : personne n’a à les clôturer à la main.",
+        "Documentation interactive de l’API avec Swagger."
+      ],
+      "ar": [
+        "رموز وصول وتجديد JWT عبر Passport، وحُرّاس حسب الدور، وتجزئة كلمات المرور بـ bcrypt.",
+        "تحصين عبر helmet وتحديد معدّل الطلبات والتحقق من المدخلات (class-validator).",
+        "يُغلق المزاد عبر مهمة مجدولة (\u200e@nestjs/schedule)، فلا حاجة لإغلاقه يدوياً.",
+        "توثيق تفاعلي للواجهة البرمجية عبر Swagger."
+      ]
+    },
+    "diagram": {
+      "columns": [
+        [{ "id": "spa", "label": "React + Vite", "detail": "TanStack Query, Zustand" }],
+        [
+          { "id": "api", "label": "NestJS API", "detail": { "en": "JWT, role guards", "fr": "JWT, guards par rôle", "ar": "JWT، حُرّاس الأدوار" } },
+          { "id": "sched", "label": { "en": "Scheduler", "fr": "Planificateur", "ar": "المُجدوِل" }, "detail": { "en": "Closes auctions", "fr": "Clôture les enchères", "ar": "يُغلق المزادات" } }
+        ],
+        [{ "id": "orm", "label": "TypeORM" }],
+        [{ "id": "db", "label": "SQL Server" }]
+      ],
+      "edges": [
+        ["spa", "api"],
+        ["api", "orm"],
+        ["sched", "orm"],
+        ["orm", "db"]
+      ],
+      "gapLabels": ["REST", null, null],
+      "caption": {
+        "en": "The React app calls the NestJS REST API; the API and a scheduled closing job both persist through TypeORM to SQL Server.",
+        "fr": "L’application React appelle l’API REST NestJS ; l’API et une tâche planifiée de clôture persistent toutes deux via TypeORM dans SQL Server.",
+        "ar": "يستدعي تطبيق React واجهة REST في NestJS، وتحفظ الواجهة البرمجية ومهمة الإغلاق المجدولة البيانات عبر TypeORM في SQL Server."
+      }
+    }
+  }
+}

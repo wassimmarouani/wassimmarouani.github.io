@@ -1,0 +1,91 @@
+{
+  "_reviewed": "no",
+  "order": 2,
+  "featured": true,
+  "context": "client",
+  "tracks": ["fullstack"],
+  "title": {
+    "en": "Fishing-fleet management system",
+    "fr": "Système de gestion de flotte de pêche",
+    "ar": "نظام إدارة أسطول صيد"
+  },
+  "summary": {
+    "en": "A full-stack app for a trawler fleet’s trips, crews, revenues, expenses, payroll and invoices, with profit-sharing calculated to the millime.",
+    "fr": "Une application full-stack pour les sorties, équipages, recettes, dépenses, paie et factures d’une flotte de chalutiers, avec un partage des bénéfices calculé au millime près.",
+    "ar": "تطبيق متكامل لإدارة رحلات أسطول من سفن الصيد بالجرّ وطواقمها وإيراداتها ومصاريفها وأجورها وفواتيرها، مع احتساب تقاسم الأرباح بدقة المليم."
+  },
+  "stack": ["React", "TypeScript", "Tailwind CSS", "shadcn/ui", "ASP.NET Core 8", "EF Core", "SQL Server", "Vitest", "xUnit"],
+  "privateCode": true,
+  "caseStudy": {
+    "role": {
+      "en": "Full-stack development for a client",
+      "fr": "Développement full-stack pour un client",
+      "ar": "تطوير Full-Stack لصالح عميل"
+    },
+    "problem": {
+      "en": "A trawler fleet needed one place to manage trips, crews, revenues, expenses, payroll and invoices. Crew pay follows profit-sharing rules (a 52/48 split, per-crew shares, advances and bonuses) and the results have to be exact to the millime.",
+      "fr": "Une flotte de chalutiers avait besoin d’un outil unique pour gérer sorties, équipages, recettes, dépenses, paie et factures. La rémunération des équipages suit des règles de partage des bénéfices (répartition 52/48, parts par équipage, avances et primes) et les résultats doivent être exacts au millime.",
+      "ar": "احتاج أسطول من سفن الصيد بالجرّ إلى أداة واحدة لإدارة الرحلات والطواقم والإيرادات والمصاريف والأجور والفواتير. تخضع أجور الطواقم لقواعد تقاسم الأرباح (تقسيم 52/48، وحصص لكل طاقم، وتسبقات، ومنح)، ويجب أن تكون النتائج دقيقة حتى المليم."
+    },
+    "built": {
+      "en": [
+        "A web app covering trips, crews, revenues, expenses, payroll and invoices.",
+        "An isolated calculation engine that reproduces the profit-sharing rules: the 52/48 split, per-crew shares, advances and bonuses.",
+        "Local-first storage so the app keeps working offline, with remote backup.",
+        "PDF and Excel exports."
+      ],
+      "fr": [
+        "Une application web couvrant sorties, équipages, recettes, dépenses, paie et factures.",
+        "Un moteur de calcul isolé qui reproduit les règles de partage : répartition 52/48, parts par équipage, avances et primes.",
+        "Un stockage local-first pour que l’application fonctionne hors ligne, avec sauvegarde distante.",
+        "Des exports PDF et Excel."
+      ],
+      "ar": [
+        "تطبيق ويب يغطي الرحلات والطواقم والإيرادات والمصاريف والأجور والفواتير.",
+        "محرّك حساب معزول يطبّق قواعد تقاسم الأرباح: تقسيم 52/48، وحصص كل طاقم، والتسبقات، والمنح.",
+        "تخزين محلي أولاً (local-first) ليعمل التطبيق دون اتصال، مع نسخ احتياطي عن بُعد.",
+        "تصدير إلى PDF وExcel."
+      ]
+    },
+    "highlights": {
+      "en": [
+        "Money is stored as integers, never as floating-point numbers, so rounding errors cannot creep into payroll.",
+        "The calculation engine is isolated and unit-tested (Vitest, xUnit), so the business rules can be checked on their own, case by case."
+      ],
+      "fr": [
+        "Les montants sont stockés en entiers, jamais en nombres à virgule flottante : aucune erreur d’arrondi ne peut se glisser dans la paie.",
+        "Le moteur de calcul est isolé et couvert par des tests unitaires (Vitest, xUnit) : les règles métier se vérifient indépendamment, cas par cas."
+      ],
+      "ar": [
+        "تُخزَّن المبالغ كأعداد صحيحة لا كأعداد عشرية، فلا تتسلّل أخطاء التقريب إلى الأجور.",
+        "محرّك الحساب معزول ومغطّى باختبارات الوحدات (Vitest، xUnit)، فيمكن التحقق من قواعد العمل بشكل مستقل، حالةً بحالة."
+      ]
+    },
+    "diagram": {
+      "columns": [
+        [{ "id": "ui", "label": { "en": "React app", "fr": "Application React", "ar": "تطبيق React" }, "detail": "TypeScript, Tailwind, shadcn/ui" }],
+        [
+          { "id": "engine", "label": { "en": "Calculation engine", "fr": "Moteur de calcul", "ar": "محرّك الحساب" }, "detail": { "en": "Profit-sharing, unit-tested", "fr": "Partage, testé", "ar": "تقاسم الأرباح، مُختبَر" } },
+          { "id": "local", "label": { "en": "Local-first store", "fr": "Stockage local-first", "ar": "تخزين محلي" }, "detail": { "en": "Works offline", "fr": "Hors ligne", "ar": "يعمل دون اتصال" } },
+          { "id": "exports", "label": { "en": "Exports", "fr": "Exports", "ar": "التصدير" }, "detail": "PDF, Excel" }
+        ],
+        [{ "id": "api", "label": "ASP.NET Core 8", "detail": { "en": "Remote backup API", "fr": "API de sauvegarde", "ar": "واجهة النسخ الاحتياطي" } }],
+        [{ "id": "ef", "label": "EF Core" }],
+        [{ "id": "db", "label": "SQL Server" }]
+      ],
+      "edges": [
+        ["ui", "engine"],
+        ["ui", "local"],
+        ["ui", "exports"],
+        ["local", "api"],
+        ["api", "ef"],
+        ["ef", "db"]
+      ],
+      "caption": {
+        "en": "The React app computes pay with an isolated engine, keeps data in a local-first store that syncs to an ASP.NET Core API for backup, and exports PDF and Excel.",
+        "fr": "L’application React calcule la paie avec un moteur isolé, garde les données dans un stockage local-first synchronisé avec une API ASP.NET Core pour la sauvegarde, et exporte en PDF et Excel.",
+        "ar": "يحسب تطبيق React الأجور بمحرّك معزول، ويحفظ البيانات في تخزين محلي يُزامَن مع واجهة ASP.NET Core للنسخ الاحتياطي، ويصدّر إلى PDF وExcel."
+      }
+    }
+  }
+}

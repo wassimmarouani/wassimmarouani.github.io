@@ -1,0 +1,139 @@
+---
+import Icon from './Icon.astro';
+import CvMenu from './CvMenu.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { profile } from '@/data/profile';
+import { localePath, useTranslations, type Locale, type UIKey } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+  route: string;
+}
+
+const { locale, route } = Astro.props;
+const t = useTranslations(locale);
+const home = localePath(locale);
+
+const sections: { id: string; label: UIKey }[] = [
+  { id: 'about', label: 'nav.about' },
+  { id: 'projects', label: 'nav.projects' },
+  { id: 'experience', label: 'nav.experience' },
+  { id: 'skills', label: 'nav.skills' },
+  { id: 'contact', label: 'nav.contact' },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-line bg-bg/95 backdrop-blur-sm supports-[backdrop-filter]:bg-bg/85">
+  <div class="page flex h-16 items-center gap-2">
+    <a href={home} class="me-auto flex min-h-11 items-center gap-2.5 font-semibold no-underline">
+      <span
+        aria-hidden="true"
+        class="grid size-8 place-items-center rounded bg-brand text-[0.8rem] font-semibold tracking-wide text-brand-accent"
+        dir="ltr">{profile.initials}</span
+      >
+      <span>{profile.name[locale]}</span>
+    </a>
+
+    <nav aria-label={t('nav.label')} class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          sections.map((s) => (
+            <li>
+              <a
+                href={`${home}#${s.id}`}
+                class="inline-flex min-h-11 items-center rounded px-3 text-[0.95rem] text-muted no-underline hover:text-text"
+              >
+                {t(s.label)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <LanguageSwitcher locale={locale} route={route} class="hidden border-s border-line ps-2 lg:block" />
+    <ThemeToggle locale={locale} />
+    <CvMenu locale={locale} variant="primary" class="hidden lg:block" />
+
+    <button
+      type="button"
+      class="icon-btn js-only lg:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-toggle
+      data-label-open={t('nav.openMenu')}
+      data-label-close={t('nav.closeMenu')}
+      aria-label={t('nav.openMenu')}
+    >
+      <Icon name="menu" class="menu-icon-open" />
+      <Icon name="close" class="menu-icon-close hidden" />
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu border-t border-line bg-bg lg:hidden" data-mobile-menu>
+    <div class="page flex flex-col gap-4 py-4">
+      <nav aria-label={t('nav.label')}>
+        <ul class="flex flex-col">
+          {
+            sections.map((s) => (
+              <li>
+                <a
+                  href={`${home}#${s.id}`}
+                  class="flex min-h-12 items-center border-b border-line text-lg no-underline hover:text-accent"
+                  data-menu-link
+                >
+                  {t(s.label)}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <LanguageSwitcher locale={locale} route={route} />
+        <CvMenu locale={locale} variant="primary" align="end" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  /* With JavaScript the mobile menu is a toggled panel; without it, it stays open below the bar. */
+  :global(html.js) .mobile-menu:not(.is-open) {
+    display: none;
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-mobile-menu]');
+
+  function setOpen(open: boolean) {
+    if (!toggle || !menu) return;
+    menu.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    const label = open ? toggle.dataset.labelClose : toggle.dataset.labelOpen;
+    if (label) toggle.setAttribute('aria-label', label);
+    toggle.querySelector('.menu-icon-open')?.classList.toggle('hidden', open);
+    toggle.querySelector('.menu-icon-close')?.classList.toggle('hidden', !open);
+  }
+
+  toggle?.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+
+  menu?.addEventListener('click', (event) => {
+    if ((event.target as Element).closest('[data-menu-link]')) setOpen(false);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+
+  // Close the panel when the viewport grows past the desktop breakpoint.
+  matchMedia('(min-width: 1024px)').addEventListener('change', (event) => {
+    if (event.matches) setOpen(false);
+  });
+</script>

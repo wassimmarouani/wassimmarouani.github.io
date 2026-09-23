@@ -1,0 +1,61 @@
+---
+import { experience } from '@/data/experience';
+import { formatMonth, useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="page">
+    <h2 id="experience-title" class="section-title">{t('experience.title')}</h2>
+
+    <ol class="mt-10 border-s border-line-strong">
+      {
+        experience.map((role) => (
+          <li class="relative ps-6 pb-12 last:pb-0 sm:ps-10">
+            <span
+              aria-hidden="true"
+              class="absolute -start-[7px] top-1.5 size-[13px] rounded-full border-2 border-accent bg-bg"
+            />
+            <div class="grid gap-x-10 gap-y-1 md:grid-cols-[12rem_minmax(0,1fr)]">
+              <p class="text-sm text-muted md:pt-1">
+                <time datetime={role.start}>{formatMonth(role.start, locale)}</time>
+                <span aria-hidden="true"> – </span>
+                {role.end ? <time datetime={role.end}>{formatMonth(role.end, locale)}</time> : <span>{t('experience.present')}</span>}
+                <br class="hidden md:block" />
+                <span class="md:hidden" aria-hidden="true"> · </span>
+                {t(`experience.${role.type}`)}
+              </p>
+
+              <div>
+                <h3 class="text-lg leading-snug">{role.title[locale]}</h3>
+                <p class="mt-1 text-muted">
+                  <span class="font-medium text-text">{role.company}</span>
+                  <span aria-hidden="true"> · </span>
+                  {role.location[locale]}
+                </p>
+                {role.companyNote && <p class="mt-1 text-sm text-muted">{role.companyNote[locale]}</p>}
+
+                <ul class="prose-width mt-4 list-disc space-y-2 ps-5 marker:text-accent">
+                  {role.bullets[locale].map((bullet) => (
+                    <li>{bullet}</li>
+                  ))}
+                </ul>
+
+                <p class="mt-4 text-sm text-muted">
+                  <span class="font-medium text-text">{t('experience.tools')}:</span>{' '}
+                  <bdi dir="ltr">{role.tools.join(', ')}</bdi>
+                </p>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+/**
+ * Root URL: sends visitors to their browser language (English by default).
+ * Without JavaScript it redirects to English and shows links to all three.
+ */
+import { alternatePaths, localeMeta, locales } from '@/i18n';
+
+const paths = alternatePaths('');
+const site = Astro.site ?? new URL(Astro.url.origin);
+const targets = JSON.stringify(paths);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wassim Marouani</title>
+    <meta name="description" content="Portfolio of Wassim Marouani, full-stack developer with a BI and data engineering background." />
+    <link rel="canonical" href={new URL('/', site).href} />
+    {locales.map((l) => <link rel="alternate" hreflang={localeMeta[l].tag} href={new URL(paths[l], site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/', site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script is:inline define:vars={{ targets }}>
+      (function () {
+        var map = JSON.parse(targets);
+        var langs = navigator.languages || [navigator.language || 'en'];
+        var target = map.en;
+        for (var i = 0; i < langs.length; i++) {
+          var code = String(langs[i]).toLowerCase().slice(0, 2);
+          if (map[code]) {
+            target = map[code];
+            break;
+          }
+        }
+        location.replace(target + location.hash);
+      })();
+    </script>
+    <noscript><meta http-equiv="refresh" content={`0; url=${paths.en}`} /></noscript>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        background: #f5f7f7;
+        color: #0f1e24;
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+      a {
+        color: #0f766e;
+        margin: 0 0.75rem;
+        font-size: 1.125rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1 style="font-size: 1.25rem; font-weight: 600">Wassim Marouani</h1>
+      <p>
+        {
+          locales.map((l) => (
+            <a href={paths[l]} hreflang={localeMeta[l].tag} lang={localeMeta[l].tag}>
+              {localeMeta[l].name}
+            </a>
+          ))
+        }
+      </p>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+---
+import {
+  DETAIL_SIZE,
+  LABEL_SIZE,
+  layoutHorizontal,
+  layoutVertical,
+  type DiagramInput,
+  type DiagramLayout,
+} from '@/lib/diagram';
+import { localeMeta, pick, type Locale, type MaybeLocalized } from '@/i18n/config';
+
+interface Props {
+  locale: Locale;
+  id: string;
+  diagram: {
+    columns: { id: string; label: MaybeLocalized; detail?: MaybeLocalized | undefined }[][];
+    edges?: [string, string][] | undefined;
+    gapLabels?: (string | null)[] | undefined;
+  };
+  /** Id of the element that describes the diagram in words. */
+  describedBy: string;
+}
+
+const { locale, id, diagram, describedBy } = Astro.props;
+const rtl = localeMeta[locale].dir === 'rtl';
+
+const input: DiagramInput = {
+  columns: diagram.columns.map((column) =>
+    column.map((node) => ({
+      id: node.id,
+      label: pick(node.label, locale),
+      detail: node.detail ? pick(node.detail, locale) : undefined,
+    })),
+  ),
+  edges: diagram.edges,
+  gapLabels: diagram.gapLabels,
+};
+
+const variants: { key: string; layout: DiagramLayout; className: string }[] = [
+  { key: 'h', layout: layoutHorizontal(input, rtl), className: 'hidden md:block' },
+  { key: 'v', layout: layoutVertical(input, rtl), className: 'mx-auto max-w-sm md:hidden' },
+];
+
+const hasArabic = (text: string) => /[؀-ۿ]/.test(text);
+const lineHeight = 1.35;
+---
+
+{
+  variants.map(({ key, layout, className }) => {
+    const markerId = `arrow-${id}-${key}`;
+    return (
+      <svg
+        viewBox={`0 0 ${layout.width} ${layout.height}`}
+        width={layout.width}
+        height={layout.height}
+        class:list={['arch-diagram h-auto w-full', className]}
+        role="img"
+        aria-labelledby={describedBy}
+        data-diagram={key}
+      >
+        <defs>
+          <marker id={markerId} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,1 L9,5 L0,9 z" class="d-arrow" />
+          </marker>
+        </defs>
+
+        <g class="d-edges" fill="none">
+          {layout.edges.map((edge) => (
+            <>
+              <path d={edge.d} class="d-edge" marker-end={`url(#${markerId})`} />
+              <circle cx={edge.from.x} cy={edge.from.y} r="3" class="d-port" />
+            </>
+          ))}
+        </g>
+
+        {layout.labels.map((label) => {
+          const w = label.text.length * 7.5 + 14;
+          return (
+            <g class="d-gap">
+              <rect x={label.x - w / 2} y={label.y - 10} width={w} height="20" rx="10" />
+              <text x={label.x} y={label.y + 4} text-anchor="middle" class="d-gap-label" direction="ltr">
+                {label.text}
+              </text>
+            </g>
+          );
+        })}
+
+        {layout.nodes.map((node) => {
+          const cx = node.x + node.w / 2;
+          const labelBlock = node.labelLines.length * LABEL_SIZE * lineHeight;
+          const detailBlock = node.detailLines.length ? 6 + node.detailLines.length * DETAIL_SIZE * lineHeight : 0;
+          const startY = node.y + (node.h - labelBlock - detailBlock) / 2 + LABEL_SIZE;
+          return (
+            <g class:list={['d-node', { 'd-node-terminal': node.terminal }]}>
+              <rect x={node.x + 0.75} y={node.y + 0.75} width={node.w - 1.5} height={node.h - 1.5} rx="8" />
+              <text text-anchor="middle" class="d-label" direction={hasArabic(node.label) ? 'rtl' : 'ltr'}>
+                {node.labelLines.map((line, i) => (
+                  <tspan x={cx} y={startY + i * LABEL_SIZE * lineHeight}>
+                    {line}
+                  </tspan>
+                ))}
+              </text>
+              {node.detailLines.length > 0 && (
+                <text text-anchor="middle" class="d-detail" direction={hasArabic(node.detail ?? '') ? 'rtl' : 'ltr'}>
+                  {node.detailLines.map((line, i) => (
+                    <tspan x={cx} y={startY + labelBlock - LABEL_SIZE + 6 + DETAIL_SIZE + i * DETAIL_SIZE * lineHeight}>
+                      {line}
+                    </tspan>
+                  ))}
+                </text>
+              )}
+            </g>
+          );
+        })}
+      </svg>
+    );
+  })
+}
+
+<style>
+  .arch-diagram {
+    overflow: visible;
+    font-family: inherit;
+  }
+  .arch-diagram :global(.d-node rect) {
+    fill: var(--c-surface);
+    stroke: var(--c-border-strong);
+    stroke-width: 1.5;
+  }
+  .arch-diagram :global(.d-node-terminal rect) {
+    stroke: var(--c-accent);
+  }
+  .arch-diagram :global(.d-label) {
+    fill: var(--c-text);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .arch-diagram :global(.d-detail) {
+    fill: var(--c-muted);
+    font-size: 12px;
+  }
+  .arch-diagram :global(.d-edge) {
+    stroke: var(--c-accent);
+    stroke-width: 1.5;
+  }
+  .arch-diagram :global(.d-port),
+  .arch-diagram :global(.d-arrow) {
+    fill: var(--c-accent);
+  }
+  .arch-diagram :global(.d-gap rect) {
+    fill: var(--c-bg);
+    stroke: var(--c-accent);
+    stroke-width: 1;
+  }
+  .arch-diagram :global(.d-gap-label) {
+    fill: var(--c-accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+</style>

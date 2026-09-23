@@ -1,0 +1,63 @@
+---
+import Icon from './Icon.astro';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const t = useTranslations(Astro.props.locale);
+---
+
+<button
+  type="button"
+  class="icon-btn js-only"
+  data-theme-toggle
+  data-label-dark={t('theme.toDark')}
+  data-label-light={t('theme.toLight')}
+  aria-label={t('theme.toDark')}
+>
+  <Icon name="moon" class="theme-icon-moon" />
+  <Icon name="sun" class="theme-icon-sun" />
+</button>
+
+<style>
+  :global(.theme-icon-sun) {
+    display: none;
+  }
+  :global(:root.dark .theme-icon-sun) {
+    display: block;
+  }
+  :global(:root.dark .theme-icon-moon) {
+    display: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
+
+  function syncLabels() {
+    const dark = root.classList.contains('dark');
+    for (const button of buttons) {
+      const label = dark ? button.dataset.labelLight : button.dataset.labelDark;
+      if (label) button.setAttribute('aria-label', label);
+    }
+  }
+
+  for (const button of buttons) {
+    button.addEventListener('click', () => {
+      const dark = !root.classList.contains('dark');
+      root.classList.toggle('dark', dark);
+      root.classList.toggle('light', !dark);
+      try {
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      } catch {
+        // Storage unavailable (private mode): the choice lasts for this page only.
+      }
+      syncLabels();
+    });
+  }
+
+  syncLabels();
+</script>

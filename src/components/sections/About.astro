@@ -1,0 +1,47 @@
+---
+import { profile } from '@/data/profile';
+import { useTranslations, type Locale } from '@/i18n';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="about" class="section" aria-labelledby="about-title">
+  <div class="page grid gap-10 lg:grid-cols-[minmax(0,1fr)_20rem] lg:gap-16">
+    <div>
+      <h2 id="about-title" class="section-title">{t('about.title')}</h2>
+      <div class="prose-width mt-6 space-y-5 text-[1.0625rem]">
+        {profile.about[locale].map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+
+    <dl class="space-y-6 self-start border-s-2 border-accent ps-6 lg:mt-14">
+      <div>
+        <dt class="text-sm font-semibold">{t('about.location')}</dt>
+        <dd class="mt-1 text-muted">{profile.location[locale]}</dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold">{t('about.languages')}</dt>
+        <dd class="mt-1">
+          <ul class="space-y-0.5 text-muted">
+            {
+              profile.languages.map((l) => (
+                <li>
+                  {l.name[locale]} <span class="text-text">({l.level[locale]})</span>
+                </li>
+              ))
+            }
+          </ul>
+        </dd>
+      </div>
+      <div>
+        <dt class="text-sm font-semibold">{t('about.availability')}</dt>
+        <dd class="mt-1 text-muted">{profile.availability[locale]}</dd>
+      </div>
+    </dl>
+  </div>
+</section>
