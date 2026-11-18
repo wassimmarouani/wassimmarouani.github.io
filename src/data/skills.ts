@@ -16,7 +16,7 @@ export const skills: SkillGroup[] = [
     id: 'frontend',
     title: { en: 'Frontend', fr: 'Frontend', ar: 'الواجهة الأمامية' },
     icon: 'layout',
-    items: ['React', 'Angular', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'HTML', 'CSS'],
+    items: ['React', 'Next.js', 'Angular', 'TypeScript', 'JavaScript', 'Tailwind CSS', 'HTML', 'CSS'],
   },
   {
     id: 'backend',
@@ -29,7 +29,9 @@ export const skills: SkillGroup[] = [
       'Laravel',
       'Symfony',
       'Java (Servlets/JSP)',
+      'Supabase',
       'Prisma',
+      'Drizzle ORM',
       'TypeORM',
       'Entity Framework Core',
       'PHP',
@@ -82,7 +84,7 @@ export const skills: SkillGroup[] = [
     items: [
       'Git & GitHub',
       'Agile/Scrum',
-      { en: 'Automated testing (Vitest, xUnit)', fr: 'Tests automatisés (Vitest, xUnit)', ar: 'الاختبارات الآلية (Vitest، xUnit)' },
+      { en: 'Automated testing (Vitest, Playwright, xUnit)', fr: 'Tests automatisés (Vitest, Playwright, xUnit)', ar: 'الاختبارات الآلية (Vitest، Playwright، xUnit)' },
       { en: 'Responsive design', fr: 'Design responsive', ar: 'التصميم المتجاوب' },
       { en: 'WCAG accessibility', fr: 'Accessibilité WCAG', ar: 'إمكانية الوصول وفق WCAG' },
     ],

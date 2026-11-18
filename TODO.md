@@ -13,7 +13,7 @@ Everything the site still needs from you, most important first.
 ## 2. Assets
 
 - [ ] **Project screenshots.** Every project currently shows a generated cover. Add `_source/projects/<slug>/cover.png` (16:9, at least 1600 px wide), then run `npm run prepare:assets`:
-  - `artisraw-b2b`: b2b.artisraw.com home or catalog
+  - `taply`: done (landing hero); `artisraw-b2b`: b2b.artisraw.com home or catalog
   - `fishing-fleet-management`: a screen without client data, or a mock-up
   - `enterprise-bi-dashboard`: the sales dashboard (Angular or React)
   - `auction-platform`: an auction detail page
@@ -24,6 +24,13 @@ Everything the site still needs from you, most important first.
 ## 3. Facts to confirm
 
 I kept to your brief and the repositories. These points are my interpretation, so please check them:
+
+- [ ] **Taply (added 2026-11-18):** the case study is based on the Taply README, CLAUDE.md, ADRs and code. Please confirm:
+  - the role line ("Product, design and full-stack development") and the "Personal" context;
+  - the AI provider: the code uses Gemini (`src/features/ai/providers/gemini.ts`), while Taply's own CLAUDE.md still lists the Anthropic SDK;
+  - the status line: phase 1 built, table ordering / live tracking / kitchen display planned. Update it as phases ship.
+  - The cover is the landing hero from your review screenshots of 2026-11-04, cropped below the header because that capture still showed the old name. Replace `src/assets/projects/taply/cover.jpg` with a current capture (e.g. the demo venues) when you have one.
+  - The code repository is private, so the site shows "Private code, available on request". Add `"github"` or `"live"` links in `src/content/projects/taply.json` if it becomes public or gets a public URL.
 
 - [ ] **Fishing-fleet diagram:** it shows the calculation engine and local-first store on the client side, syncing to the ASP.NET Core API for backup. Adjust `src/content/projects/fishing-fleet-management.json` if the engine runs on the server.
 - [ ] **Roles on academic projects:** the case studies say "the whole chain" (BI dashboard) and "backend API and React front end" (auction platform). Change these if they were team projects.

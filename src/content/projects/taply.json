@@ -1,0 +1,120 @@
+{
+  "_reviewed": "no",
+  "order": 2,
+  "featured": true,
+  "context": "personal",
+  "tracks": ["fullstack"],
+  "title": {
+    "en": "Taply, QR menu SaaS",
+    "fr": "Taply, SaaS de menu QR",
+    "ar": "Taply، منصة SaaS لقوائم QR"
+  },
+  "summary": {
+    "en": "A multi-tenant SaaS for Tunisian cafés and restaurants: a QR digital menu in French, Arabic and English, with call-waiter and bill requests delivered to staff in real time.",
+    "fr": "Un SaaS multi-établissements pour les cafés et restaurants tunisiens : un menu digital par QR code en français, arabe et anglais, avec appel du serveur et demande d’addition transmis au staff en temps réel.",
+    "ar": "منصة SaaS متعددة المؤسسات للمقاهي والمطاعم التونسية: قائمة رقمية عبر رمز QR بالفرنسية والعربية والإنجليزية، مع نداء النادل وطلب الحساب يصلان إلى الطاقم في الوقت الفعلي."
+  },
+  "stack": ["Next.js 16", "React 19", "TypeScript", "Tailwind CSS 4", "Supabase", "PostgreSQL", "Drizzle ORM", "next-intl", "Web Push", "Gemini API", "Vitest", "Playwright"],
+  "privateCode": true,
+  "caseStudy": {
+    "role": {
+      "en": "Product, design and full-stack development",
+      "fr": "Produit, design et développement full-stack",
+      "ar": "المنتج والتصميم والتطوير الكامل (Full-Stack)"
+    },
+    "problem": {
+      "en": "Most cafés and restaurants in Tunisia still use paper menus: they wear out, can’t follow a price change, and waiters walk back and forth for every request. Taply replaces them with a QR menu that an owner sets up alone, through a guided setup designed to publish a menu in under 30 minutes, sold by subscription with one codebase serving every venue.",
+      "fr": "La plupart des cafés et restaurants en Tunisie utilisent encore des menus papier : ils s’abîment, ne suivent pas les changements de prix, et les serveurs font des allers-retours pour chaque demande. Taply les remplace par un menu QR que le gérant configure seul, grâce à un parcours guidé conçu pour publier un menu en moins de 30 minutes, vendu par abonnement avec une seule base de code pour tous les établissements.",
+      "ar": "لا تزال أغلب المقاهي والمطاعم في تونس تستعمل قوائم ورقية: تتلف بسرعة، ولا تواكب تغيّر الأسعار، ويضطر النادل إلى الذهاب والإياب مع كل طلب. يعوّضها Taply بقائمة QR يُعدّها صاحب المحل بنفسه عبر مسار موجَّه مصمَّم لنشر القائمة في أقل من 30 دقيقة، وتُباع باشتراك مع قاعدة شيفرة واحدة لكل المؤسسات."
+    },
+    "built": {
+      "en": [
+        "A public customer menu reached by scanning the table’s QR code: French, Arabic (full RTL) and English, mobile-first, with at most 150 KB of initial JavaScript, plus call-waiter and bill-request buttons.",
+        "A staff PWA on paired devices that alerts the team with sound, vibration and Web Push, keeps the screen awake (Wake Lock) and acknowledges each alert it receives.",
+        "An owner back-office: guided onboarding, a menu editor with a live phone preview, 9 ready-made menu templates, tables with printable QR tents, team, settings and 30-day analytics.",
+        "AI menu import from a photo of the paper menu, and AI translation of the menu, with quotas per plan.",
+        "A Super Admin console: platform KPIs, venues, plan and feature-flag overrides, an audit log, mandatory TOTP, and audited impersonation of a venue owner for support.",
+        "A marketing site with 10 live demo venues, each rendered in its own visual variant (display font, radius, colour mode) that owners can choose in their settings."
+      ],
+      "fr": [
+        "Un menu client public ouvert en scannant le QR code de la table : français, arabe (RTL complet) et anglais, mobile-first, avec au plus 150 Ko de JavaScript initial, et des boutons d’appel du serveur et de demande d’addition.",
+        "Une PWA staff sur appareils appairés qui alerte l’équipe par son, vibration et Web Push, garde l’écran allumé (Wake Lock) et accuse réception de chaque alerte.",
+        "Un back-office gérant : onboarding guidé, éditeur de menu avec aperçu mobile en direct, 9 modèles de menus prêts à l’emploi, tables et chevalets QR imprimables, équipe, paramètres et statistiques sur 30 jours.",
+        "L’import du menu par IA à partir d’une photo du menu papier, et la traduction du menu par IA, avec des quotas par offre.",
+        "Une console Super Admin : indicateurs de la plateforme, établissements, forçage d’offres et de feature flags, journal d’audit, TOTP obligatoire, et connexion « en tant que » un gérant, tracée, pour le support.",
+        "Un site vitrine avec 10 établissements de démonstration en direct, chacun dans sa propre variante visuelle (police, arrondis, mode de couleur) que les gérants peuvent choisir dans leurs paramètres."
+      ],
+      "ar": [
+        "قائمة عامة للزبائن تُفتح بمسح رمز QR الخاص بالطاولة: بالفرنسية والعربية (اتجاه RTL كامل) والإنجليزية، مصمَّمة للهاتف أولاً، بحد أقصى 150 KB من JavaScript الأولي، مع زرّي نداء النادل وطلب الحساب.",
+        "تطبيق PWA للطاقم على أجهزة مقترنة ينبّه الفريق بالصوت والاهتزاز وإشعارات Web Push، ويُبقي الشاشة مضاءة (Wake Lock)، ويؤكّد استلام كل تنبيه.",
+        "لوحة إدارة لصاحب المحل: إعداد موجَّه، ومحرّر قائمة مع معاينة مباشرة على شكل هاتف، و9 نماذج قوائم جاهزة، وطاولات مع لافتات QR قابلة للطباعة، والفريق، والإعدادات، وإحصائيات 30 يوماً.",
+        "استيراد القائمة بالذكاء الاصطناعي انطلاقاً من صورة القائمة الورقية، وترجمة القائمة بالذكاء الاصطناعي، مع حصص حسب الباقة.",
+        "لوحة Super Admin: مؤشرات المنصة، والمؤسسات، وفرض الباقات وخصائص feature flags، وسجل تدقيق، ومصادقة TOTP إلزامية، والدخول باسم صاحب محل للدعم مع تتبّع كامل.",
+        "موقع تعريفي يضم 10 مؤسسات تجريبية مباشرة، لكلٍّ منها نمط بصري خاص (الخط، والحواف، ونمط الألوان) يمكن لأصحاب المحلات اختياره من إعداداتهم."
+      ]
+    },
+    "highlights": {
+      "en": [
+        "Tenant isolation lives in the database: every tenant table carries a restaurant_id protected by Row Level Security, pgTAP and integration tests check that one venue never sees another, and a script fails if any table lacks RLS or its tests.",
+        "Staff alerts travel on private Supabase Realtime Broadcast channels that only database triggers can publish to: browsers can listen but never send, so nobody can fake an alert. On reconnect, clients refetch the full state and ignore stale versions.",
+        "Prices are stored as integer millimes, since the Tunisian dinar has three decimals, and formatted per language. The server recomputes every total; no price maths uses floating point.",
+        "Plans and feature flags are checked on the server, never only in the interface, and a Super Admin can override a flag for one venue, with an expiry date.",
+        "Quality gates: strict TypeScript, zero-warning lint, Vitest unit and integration tests, Playwright journeys with axe accessibility checks, and a screenshot matrix at 390, 768 and 1440 px in light and dark, French and Arabic."
+      ],
+      "fr": [
+        "L’isolation des établissements est assurée par la base de données : chaque table porte un restaurant_id protégé par Row Level Security, des tests pgTAP et d’intégration vérifient qu’un établissement ne voit jamais un autre, et un script échoue si une table n’a pas de RLS ou pas de tests.",
+        "Les alertes staff passent par des canaux privés Supabase Realtime Broadcast où seuls des triggers de la base peuvent publier : les navigateurs écoutent mais n’envoient jamais, personne ne peut donc simuler une alerte. À la reconnexion, les clients rechargent l’état complet et ignorent les versions périmées.",
+        "Les prix sont stockés en millimes entiers, car le dinar tunisien a trois décimales, et formatés selon la langue. Le serveur recalcule chaque total ; aucun calcul de prix n’utilise de nombre à virgule flottante.",
+        "Les offres et les feature flags sont contrôlés côté serveur, jamais seulement dans l’interface, et le Super Admin peut forcer un flag pour un établissement, avec une date d’expiration.",
+        "Contrôles qualité : TypeScript strict, lint sans aucun avertissement, tests unitaires et d’intégration Vitest, parcours Playwright avec contrôles d’accessibilité axe, et une matrice de captures à 390, 768 et 1440 px, en clair et sombre, en français et en arabe."
+      ],
+      "ar": [
+        "يتم عزل المؤسسات على مستوى قاعدة البيانات: كل جدول يحمل restaurant_id محمياً بآلية Row Level Security، وتتحقق اختبارات pgTAP واختبارات التكامل من أن أي مؤسسة لا ترى بيانات غيرها، ويفشل سكربت مخصّص إذا افتقد أي جدول RLS أو اختباراته.",
+        "تمرّ تنبيهات الطاقم عبر قنوات Supabase Realtime Broadcast خاصة لا يستطيع النشر فيها إلا triggers قاعدة البيانات: المتصفحات تستمع ولا ترسل أبداً، فلا يمكن لأحد تزييف تنبيه. وعند إعادة الاتصال، يعيد التطبيق تحميل الحالة كاملة ويتجاهل النسخ القديمة.",
+        "تُخزَّن الأسعار بالمليم كأعداد صحيحة، لأن للدينار التونسي ثلاثة أرقام عشرية، وتُعرض حسب اللغة. ويعيد الخادم حساب كل مجموع، ولا يُستعمل أي حساب عشري للأسعار.",
+        "يتم التحقق من الباقات وخصائص feature flags على الخادم، لا في الواجهة فقط، ويمكن لـ Super Admin فرض خاصية لمؤسسة واحدة مع تاريخ انتهاء.",
+        "ضوابط الجودة: TypeScript صارم، وفحص lint دون أي تحذير، واختبارات وحدات وتكامل بـ Vitest، ومسارات Playwright مع فحص إمكانية الوصول عبر axe، ومصفوفة لقطات شاشة بعروض 390 و768 و1440 px، بالوضعين الفاتح والداكن، بالفرنسية والعربية."
+      ]
+    },
+    "limitations": {
+      "en": [
+        "Work in progress: the first phase (menu, service requests, staff alerts, back-office and Super Admin) is built. Table ordering, live order tracking and the kitchen display are planned for later phases."
+      ],
+      "fr": [
+        "En cours de développement : la première phase (menu, demandes de service, alertes staff, back-office et Super Admin) est réalisée. La commande à table, le suivi des commandes en direct et l’écran de préparation sont prévus dans les phases suivantes."
+      ],
+      "ar": [
+        "قيد التطوير: أُنجزت المرحلة الأولى (القائمة، وطلبات الخدمة، وتنبيهات الطاقم، ولوحة الإدارة، وSuper Admin). أما الطلب من الطاولة، وتتبّع الطلبات مباشرة، وشاشة التحضير، فمبرمجة للمراحل القادمة."
+      ]
+    },
+    "diagram": {
+      "columns": [
+        [
+          { "id": "customer", "label": { "en": "Customer menu", "fr": "Menu client", "ar": "قائمة الزبون" }, "detail": { "en": "QR scan, no app", "fr": "Scan QR, sans app", "ar": "مسح QR، دون تطبيق" } },
+          { "id": "office", "label": { "en": "Back-office", "fr": "Back-office", "ar": "لوحة الإدارة" }, "detail": { "en": "Owners, Super Admin", "fr": "Gérants, Super Admin", "ar": "أصحاب المحلات، Super Admin" } }
+        ],
+        [{ "id": "app", "label": "Next.js 16", "detail": { "en": "Server Components, Server Actions, Zod", "fr": "Server Components, Server Actions, Zod", "ar": "Server Components، Server Actions، Zod" } }],
+        [
+          { "id": "db", "label": "Supabase", "detail": { "en": "Postgres, RLS, triggers", "fr": "Postgres, RLS, triggers", "ar": "Postgres، RLS، triggers" } },
+          { "id": "ai", "label": "Gemini API", "detail": { "en": "Menu import, translation", "fr": "Import, traduction", "ar": "الاستيراد، الترجمة" } },
+          { "id": "push", "label": "Web Push", "detail": { "en": "App closed", "fr": "App fermée", "ar": "التطبيق مغلق" } }
+        ],
+        [{ "id": "staff", "label": { "en": "Staff PWA", "fr": "PWA staff", "ar": "تطبيق الطاقم" }, "detail": { "en": "Sound, vibration, Wake Lock", "fr": "Son, vibration, Wake Lock", "ar": "صوت، اهتزاز، Wake Lock" } }]
+      ],
+      "edges": [
+        ["customer", "app"],
+        ["office", "app"],
+        ["app", "db"],
+        ["app", "ai"],
+        ["app", "push"],
+        ["db", "staff"],
+        ["push", "staff"]
+      ],
+      "caption": {
+        "en": "Customers and owners use one Next.js app. Data lives in Supabase Postgres under Row Level Security; database triggers publish alerts on private Realtime channels to the staff PWA, with Web Push when the app is closed. Gemini handles menu import and translation.",
+        "fr": "Clients et gérants utilisent une seule application Next.js. Les données vivent dans Supabase Postgres sous Row Level Security ; des triggers publient les alertes sur des canaux Realtime privés vers la PWA staff, avec Web Push quand l’application est fermée. Gemini gère l’import et la traduction du menu.",
+        "ar": "يستعمل الزبائن وأصحاب المحلات تطبيق Next.js واحداً. تُخزَّن البيانات في Supabase Postgres تحت حماية Row Level Security، وتنشر triggers قاعدة البيانات التنبيهات عبر قنوات Realtime خاصة نحو تطبيق الطاقم، مع Web Push عندما يكون التطبيق مغلقاً. ويتولى Gemini استيراد القائمة وترجمتها."
+      }
+    }
+  }
+}
